@@ -3,6 +3,7 @@ layout: post
 title:  "FirewallD doesn't handle xml correctly?"
 date:   2016-04-15 21:27:23 +0200
 categories: firewalld
+comments: true
 ---
 
 My direct rules for firewalld (stored in direct.xml) seemed not to be working as they should.
