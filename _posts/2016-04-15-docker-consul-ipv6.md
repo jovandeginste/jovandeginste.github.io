@@ -5,6 +5,7 @@ date: 2016-04-15 16:29:23 +0200
 categories: docker consul ipv6
 comments: true
 ---
+
 We run all our containers on ipv6 routable ips. Some time ago I figured
 out Docker started too soon, and ipv6 was not yet up-and-running when
 Docker started the containers. This caused the containers to fail
@@ -23,6 +24,7 @@ registrator-consul service that 'requires' consul would fail and *not*
 be restarted.
 
 I took the following steps:
+
 * I made the 'wait-for-network' script into an independent rpm
 * I added the rpm as a dependency for our consul rpm
 * I added the ExecStartPre to the consul SystemD unit file
