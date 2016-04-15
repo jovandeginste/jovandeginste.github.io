@@ -3,6 +3,7 @@ layout: post
 title: "Docker, consul, network and ipv6"
 date: 2016-04-15 16:29:23 +0200
 categories: docker consul ipv6
+comments: true
 ---
 We run all our containers on ipv6 routable ips. Some time ago I figured
 out Docker started too soon, and ipv6 was not yet up-and-running when
