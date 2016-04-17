@@ -6,7 +6,8 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: System Administrator trying to do his job...
+title: Yet Another SysAdmin trying to do his job...
+name: Jo Vandeginste
 email: jo.vandeginste@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   I'm a Linux SysAdmin at a university's central IT department, learning some
