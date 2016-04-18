@@ -29,7 +29,7 @@ Notes:
 	* `-e`: show mac addresses and packet direction (In, Out)
 	* `-i any`: capture traffic on any interface (verify for asymmetric routing)
 	* `-nnnn`: don't resolve any ips (not really useful and potentially confusing for local stuff)
-	* `-vv`= be more verbose
+	* `-vv`: be more verbose
 	* `icmp6`: I'm only intereseted in pings over ipv6
 * ping flags:
   * `-c 2`: I send two pings out, kind of a control; don't leave the parameter out, because by default ping will ping forever
