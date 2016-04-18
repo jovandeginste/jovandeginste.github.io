@@ -24,3 +24,8 @@ profile::docker::swarm_manager::swarm_manager_port: ...
 This enables me to use our single Consul cluster to coordinate any number of Swarm clusters by setting the `cluster_name` key.
 
 After having everything in Puppet, I could use ipv6 because I didn't need to specify any ip's anymore (puppet opened the ports correctly and made sure the swarm configuration was in sync). For this I had to allow the docker ipv6 ranges (and not the host's ipv6 port).
+
+Next refinements where:
+
+* base the `cluster_name` on the role/subrole
+* automatically add firewall rules based on a simple hiera fact (instead of the complicated `rich_rules` in hiera)
