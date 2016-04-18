@@ -26,7 +26,7 @@ Notes:
 * `set -x` prints out all commands before they are executed - good to copy/paste and mail it to someone since they will now know the parameters
 * `ip a show dev eth1`: gets important starting data about `eth1` (ip addresses and mac address)
 * tcpdump flags:
-  * `-e`: show mac addresses and packet direction (In, Out)
+	* `-e`: show mac addresses and packet direction (In, Out)
 	* `-i any`: capture traffic on any interface (verify for asymmetric routing)
 	* `-nnnn`: don't resolve any ips (not really useful and potentially confusing for local stuff)
 	* `-vv`= be more verbose
@@ -35,8 +35,9 @@ Notes:
   * `-c 2`: I send two pings out, kind of a control; don't leave the parameter out, because by default ping will ping forever
 	* `fe80::1`: this is our (local) default gateway on any ipv6 network
 	* `eth1`: I'm pinging a link-local address and want to diagnose traffic over `eth1`
-    * if you didn't know about the 'ip%dev' syntax, Google it...
+		* if you didn't know about the 'ip%dev' syntax, Google it...
 
 * There is more you may want to throw in, depending on the circumstances; these are useless for a link-local address:
-  * `ip ro get $ip`: show the gateway and source ip that will be used to reach `$ip`
+	* `ip ro get $ip`: show the gateway and source ip that will be used to reach `$ip`
 	* `traceroute -n $ip`: document the intermediate hops (gateways)
+
