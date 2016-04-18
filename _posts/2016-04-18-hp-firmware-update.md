@@ -1,3 +1,9 @@
+---
+layout: post
+categories: hp-firmware
+comments: true
+---
+
 Today I had to update firmwares on a bunch of servers. The firmware update could be done online, only a (manual) reboot was needed afterwards. The updates can be downloaded as rpm's, so here's what I did:
 
 * copy all the rpm's in a single nfs location
