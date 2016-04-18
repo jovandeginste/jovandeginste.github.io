@@ -10,7 +10,7 @@ Today I set out to finally learn to use (read: correctly deploy) Docker Swarm. I
 
 After learning that there are ipv6-related bugs in our version (1.9.1), I used ipv4 connections. Firewall had to be opened (slaves connect to master and vice versa) and then I saw the cluster!
 
-Next step was putting it in puppet. Thangs to Gareth, this was easy: [https://github.com/garethr/puppet-docker-swarm-example]
+Next step was putting it in puppet. Thangs to Gareth, this was easy: <https://github.com/garethr/puppet-docker-swarm-example>
 
 I only needed to make some profiles and couple them to nodes. Then abstrahate the data in hiera. I use the following keys:
 
