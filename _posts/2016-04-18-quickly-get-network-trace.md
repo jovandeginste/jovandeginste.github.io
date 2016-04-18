@@ -14,6 +14,7 @@ ssh $server 'set -x; ip a show dev eth1; tcpdump -e -i any -nnnn -vv icmp6 & sle
 ```
 
 Notes:
+
 * I start tcpdump first in the background so the sequence of commands can continu, later I kill it (and any other tcpdumps, so careful here)
 * the sleep's are probably not necessary, but included just in case there is a delay in the packets
 * `set -x` prints out all commands before they are executed - good to copy/paste and mail it to someone since they will now know the parameters
