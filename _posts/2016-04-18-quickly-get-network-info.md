@@ -10,13 +10,19 @@ Today I was asked for some information concerning a server that could not reach 
 Instead of searching for the same or similar commands every time, I will now document a oneliner :-)
 
 ```bash
-ssh $server 'set -x; ip a show dev eth1; tcpdump -e -i any -nnnn -vv icmp6 & sleep 1; ping6 -c 2 fe80::1%eth1; sleep 1; killall tcpdump'
+ssh $server 'set -x;
+	ip a show dev eth1;
+	tcpdump -e -i any -nnnn -vv icmp6 &
+	sleep 1;
+	ping6 -c 2 fe80::1%eth1;
+	sleep 1;
+	kill %%'
 ```
 
 Notes:
 
-* I start tcpdump first in the background so the sequence of commands can continue, later I kill it (and any other tcpdumps, so careful here)
-* the sleep's are probably not necessary, but included just in case there is a delay in the packets
+* I start tcpdump first in the background so the sequence of commands can continue, later I kill it
+* the sleeps are probably not necessary, but included just in case there is a delay in the packets
 * `set -x` prints out all commands before they are executed - good to copy/paste and mail it to someone since they will now know the parameters
 * `ip a show dev eth1`: gets important starting data about `eth1` (ip addresses and mac address)
 * tcpdump flags:
