@@ -29,3 +29,4 @@ Next refinements where:
 
 * base the `cluster_name` on the role/subrole
 * automatically add firewall rules based on a simple hiera fact (instead of the complicated `rich_rules` in hiera)
+* add the necessary labels to the swarm master so it was picked up by the registrator and reachable via `master.swarm-master-$role-$subrole.service.consul`
