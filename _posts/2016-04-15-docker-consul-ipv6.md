@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Docker, consul, network and ipv6"
-date: 2016-04-15 16:29:23 +0200
 categories: docker consul ipv6
 comments: true
 ---

@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "FirewallD doesn't handle xml correctly?"
-date:   2016-04-15 21:27:23 +0200
 categories: firewalld
 comments: true
 ---
