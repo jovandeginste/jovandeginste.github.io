@@ -33,4 +33,4 @@ Thanks for your time, Adam!
 
 ### Update
 
-I looked at the code and saw a quick fix. Not an hour later the PR was submitted! Gonna have a good night's sleep after all :-)
+I looked at the code and saw the potential for a quick fix. Not an hour later the PR was submitted! Gonna have a good night's sleep after all :-)
