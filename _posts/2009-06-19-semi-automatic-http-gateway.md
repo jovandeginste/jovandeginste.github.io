@@ -6,6 +6,8 @@ comments: true
 categories: squid
 ---
 
+*Warning - this is from my archive*
+
 By default we block all external traffic, and enable what's needed. For http traffic, this is can be real pain in the ass. We have a group of machines which provide content based on external rss feeds. They regularly download the content from those feeds, and cache them for the end users. This means we need to enable access from those machines to each of the external hosts on port 80\. All pages on those hosts are then fully accessible. This is not limited to rss feeds, but eg. includes package repositories.
 The solution is to set up an http proxy server to filter http access on a higher level
 

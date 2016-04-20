@@ -6,6 +6,8 @@ comments: true
 categories: beid
 ---
 
+*Warning - this is from my archive*
+
 Getting your beID (Belgian Identity smart card) working for usage on taxonweb and other e-gov facilities is pretty easy. There's a lot of information on [http://eid.belgium.be/](http://eid.belgium.be/) for other OS'es/browsers if you need it; here are the steps for Ubuntu and Firefox:
 
 1 install the necessary packages (from the official repo's)

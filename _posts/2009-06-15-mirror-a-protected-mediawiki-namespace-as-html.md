@@ -6,6 +6,8 @@ comments: true
 categories: mediawiki
 ---
 
+*Warning - this is from my archive*
+
 ## Problem
 
 We have a MediaWiki containing the full documentation for all our systems. For security reasons, this server is behind corporate firewalls and Shibboleth authentication. Access is limited to a lucky few(including the Linux system administrators).
