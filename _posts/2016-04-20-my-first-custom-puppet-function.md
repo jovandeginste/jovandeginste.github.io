@@ -8,11 +8,11 @@ categories: puppet
 
 This experience turned out to be a lot harder than expected. Not writing some custom function - that is dead easy. Getting done what I wanted was very hard :-)
 
-**What I had:** data in hiera in a nice to maintain way
-**What I needed:** resources for a puppet module
-**What I had to do:** convert the data from hiera to data useful as parameters for create_resources e.a.
+**What I had:** data in hiera in a nice to maintain way  
+**What I needed:** resources for a puppet module  
+**What I had to do:** convert the data from hiera to data useful as parameters for `create_resources` e.a.
 
-While usually glueing hiera to puppet resources is not the most complex thing, I had a caveat: one particular hiera_hash had to be filtered and restructured and passed as a parameter for another Puppet resource.
+While usually glueing hiera to puppet resources is not the most complex thing, I had a caveat: one particular `hiera_hash` had to be filtered and restructured and passed as a parameter for another Puppet resource.
 
 ## What I had (simplified)
 
