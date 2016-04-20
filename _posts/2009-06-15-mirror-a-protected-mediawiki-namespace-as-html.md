@@ -6,7 +6,7 @@ comments: true
 categories: mediawiki
 ---
 
-## Problem:
+## Problem
 
 We have a MediaWiki containing the full documentation for all our systems. For security reasons, this server is behind corporate firewalls and Shibboleth authentication. Access is limited to a lucky few(including the Linux system administrators).
 
@@ -21,16 +21,16 @@ Some options include:
 
 Another issue was how to specify the public parts.
 
-## Solution:
+## Solution
 
 We use DumpHTML to make a dump of the whole wiki in a temporary directory. We then copy the public parts into a directory which is accessible through an Apache VirtualHost.
 
-### Get DumpHTML:
+### Get DumpHTML
 
 * svn export [http://svn.wikimedia.org/svnroot/mediawiki/trunk/extensions/DumpHTML](http://www.mediawiki.org/wiki/Extension_talk:DumpHTML)
 * [http://www.mediawiki.org/wiki/Extension_talk:DumpHTML](http://www.mediawiki.org/wiki/Extension_talk:DumpHTML)
 
-### Add the "DumpHTML" user to your wiki:
+### Add the "DumpHTML" user to your wiki
 
 Since we are automatically authenticated via Shibboleth, and can't login as WikiSysop or something like that, we had to add the DumpHTML user directly in the MySQL database. You need to log in to the MySQL database using the credentials of your wiki. Those can typically be found in a file called "LocalSettings.php" (search for `$wgDBadminuser`) in your wiki installation directory.
 
@@ -96,7 +96,7 @@ In our mirroring script, we specify each public namespace separately. Finding th
 $ find /tmp/wikidumptest -name Linux_HPC_public_*
 ```
 
-### The full script:
+### The full script
 
 ```bash
 #!/bin/sh
