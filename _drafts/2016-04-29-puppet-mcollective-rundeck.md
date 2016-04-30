@@ -50,4 +50,23 @@ I used `generate.rb` from [this repository](https://github.com/connaryscott/rund
 
 ### Node executor
 
-Next step was the "node executor", which would make Rundeck actually execute commands on the remote servers. 
+Next step was the "node executor", which will allow Rundeck to actually execute commands on the remote servers. 
+
+Here I started to get confused. The options were "ssh", "script" and "stub". Logical choice was "script", at which point I could specify a command line. I could use variables like `${node.hostname}`, `${node.username}` and `${exec.command}`. At this point I started realizing that I was not going to leverage mCollective for the parallel execution - Rundeck would be doing this by itself. Nevertheless I typed the command line, if only to verify that it worked. 
+
+It worked: I could now have the uptime of all nodes that I selected. The `whoami` returned `root`, as expected. Great but I was left with the feeling that an opportunity was missed... 
+
+I thought I could just as well use simple ssh for the remote execution, so I changed the command line:
+
+`ssh -l mco -o SomeOpts ${exec.command}`
+
+Great! Still works, but now `whoami` returned `mco` instead. Some playing around with sudoers on the remote servers, and`sudo whoami` also worked. But I now got rid of the complex setup where rundeck had to `su` to the `mco` user and have an ssh agent running. In fact, I could now even switch to Rundeck's default ssh plugin! I only needed to configure the default remote ssh user in `framework.properties` (and set some other sane defaults) and I was done:
+
+Todo add config from puppet
+
+## Integrating Rundeck and PuppetDB
+
+The question kept nagging me: what was mCollective's added value here? It gives me a list of nodes with metadata. But the metadata actually comes from puppet and facter. Metadata that happened to be stored in the PuppetDB... 
+
+So I did a quick search and found a solution: `puppetdb-rundeck`
+
