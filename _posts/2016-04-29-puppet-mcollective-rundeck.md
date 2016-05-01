@@ -136,7 +136,7 @@ Since mCollective was now out of the picture, I decided to rename the special "m
 
 ## A final bug to fix
 
-Meanwhile, the rundeck-user was added to all nodes in our puppet environment. And now, everytime I ran a command on all servers, I ended up with an error (after a lot of successful commands):
+Meanwhile, the rundeck-user was added to all nodes in our puppet environment. And now, everytime I ran a command on all servers, I ended up with a stack trace and this error in the log file (after a lot of successful commands):
 
 ```
 2016-04-29 18:24:23,965 [qtp1545044507-58] INFO  grails.app.services.rundeck.services.ScheduledExecutionService - scheduling temp job: TEMP:admin:75
