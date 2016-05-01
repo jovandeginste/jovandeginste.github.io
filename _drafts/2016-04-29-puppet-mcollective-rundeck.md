@@ -86,7 +86,14 @@ I thought I could just as well use simple ssh for the remote execution, so I cha
 
 Great! Still works, but now `whoami` returned `mco` instead. Some playing around with sudoers on the remote servers, and`sudo whoami` also worked. But I now got rid of the complex setup where rundeck had to `su` to the `mco` user and have an ssh agent running. In fact, I could now even switch to Rundeck's default ssh plugin! I only needed to configure the default remote ssh user in `framework.properties` (and set some other sane defaults) and I was done:
 
-Todo add config from puppet
+```puppet
+  class { '::rundeck':
+    framework_config      => {
+      'framework.ssh.user'    => 'mco',
+      'framework.ssh.timeout' => 5000,
+    }
+  }
+```
 
 ## Integrating Rundeck and PuppetDB
 
