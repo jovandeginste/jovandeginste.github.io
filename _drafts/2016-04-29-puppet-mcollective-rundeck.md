@@ -30,7 +30,31 @@ I defined the user (I called him `mco`) with the keys in puppet and deployed thi
 
 One shell script and some sudo config were needed on the Rundeck server and we were ready to go. 
 
-Todo: insert scripts
+Script `/usr/local/bin/mcowrapper`:
+
+```bash
+# !/bin/bash
+
+cd /tmp
+
+SSH_AUTH_SOCK=/home/mco/ssh.sock
+export SSH_AUTH_SOCK
+
+(
+        [[ -e "$SSH_AUTH_SOCK" ]] || ssh-agent -a $SSH_AUTH_SOCK
+        ssh-add
+) &>/dev/null
+
+mco $@
+
+killall -u $USER ssh-agent
+```
+
+Sudo config:
+
+```sudoers
+rundeck ALL=(mco) NOPASSWD: /usr/local/bin/mcowrapper
+```
 
 ## Rundeck
 
@@ -70,3 +94,6 @@ The question kept nagging me: what was mCollective's added value here? It gives 
 
 So I did a quick search and found a solution: `puppetdb-rundeck`
 
+## Things to look at
+
+* https://github.com/opentable/puppetdb_rundeck
