@@ -158,3 +158,5 @@ For now, I settled on patching the bridge between Rundeck and PuppetDB, filterin
 * send the patch on the bridge to interested parties
 * deploy Rundeck projects with git
 * maybe switch to an existing puppet module (eg. https://github.com/opentable/puppetdb_rundeck)
+* integrate with Jenkins 
+* integrate with Mattermost 
