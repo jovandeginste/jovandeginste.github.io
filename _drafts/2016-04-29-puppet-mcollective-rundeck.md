@@ -20,13 +20,13 @@ Ssh key authentication was enabled. This meant that anyone could use mCollective
 * they had their public key on the remote account's authorized_keys
 * they had an ssh agent running on the client
 
-This does not mean that mCollective runs as that user on the remote machine! I tried this with `whoami`, this said `root`...
+This does not mean that mCollective runs as that user on the remote machine! I tried this with `whoami`, this returned `root`...
 
 The mCollective daemon runs as root on the remote servers, but verified the user's access using the ssh keys. After that, the user is using mCollective's privileges. 
 
-This meant some complications for my Rundeck setup, since that would have to run as a service. I would need a single user on every machine, with the same name and public key. On the rundeck server, that user would need the private key. I would need a way to start the ssh agent when needed, and the user running rundeck must be able to su to that other user. 
+This means some complications for my Rundeck setup, since Rundeck runs as a service. I would need a single user on every machine, with the same name and public key. On the Rundeck server, that user would need the private key. I would need a way to start the ssh agent when needed, and the user running Rundeck must be able to run commands as that other user. 
 
-I defined the user (I called him `mco`) with the keys in puppet and deployed this to a bunch of servers for testing. 
+I defined the user (I called him "mco") with the keys in puppet and deployed this to a bunch of servers for testing. 
 
 One shell script and some sudo config were needed on the Rundeck server and we were ready to go. 
 
@@ -37,7 +37,7 @@ Script `/usr/local/bin/mcowrapper`:
 
 cd /tmp
 
-SSH_AUTH_SOCK=/home/mco/ssh.sock
+SSH_AUTH_SOCK=$HOME/ssh.sock
 export SSH_AUTH_SOCK
 
 (
@@ -72,7 +72,7 @@ In a project's "simple configuration editor" you can choose between several node
 
 I used `generate.rb` from [this repository](https://github.com/connaryscott/rundeck-mcollective-nodes) and altered it slightly to use my mco wrapper script instead. I specified this then as script for the node source, and behold, I now have a list of nodes with metadata in Rundeck!
 
-### Node executor
+### Node executor via mCollective
 
 Next step was the "node executor", which will allow Rundeck to actually execute commands on the remote servers. 
 
@@ -80,11 +80,22 @@ Here I started to get confused. The options were "ssh", "script" and "stub". Log
 
 It worked: I could now have the uptime of all nodes that I selected. The `whoami` returned `root`, as expected. Great but I was left with the feeling that an opportunity was missed... 
 
-I thought I could just as well use simple ssh for the remote execution, so I changed the command line:
+**Current state:**
 
-`ssh -l mco -o SomeOpts ${exec.command}`
+* mCollective provides the list of nodes with metadata to Rundeck via an interface script
+* Rundeck connects to a remote server using mCollective via a key pair
+* the mCollective connections require a special user both on the Rundeck server as on the remote server
+* the effective remote user is "root"
 
-Great! Still works, but now `whoami` returned `mco` instead. Some playing around with sudoers on the remote servers, and`sudo whoami` also worked. But I now got rid of the complex setup where rundeck had to `su` to the `mco` user and have an ssh agent running. In fact, I could now even switch to Rundeck's default ssh plugin! I only needed to configure the default remote ssh user in `framework.properties` (and set some other sane defaults) and I was done:
+### Node executor via ssh
+
+Since Rundeck started an mCollective session for each remote server, I thought I could just as well use simple ssh for the remote execution. So I changed the command line into this:
+
+```
+ssh -l mco -o SomeOpts ${exec.command}
+```
+
+Great! Still works, but now `whoami` returned "mco" instead. After playing around with sudoers on the remote servers, and`sudo whoami` also worked. But I now got rid of the complex setup where rundeck had to `su` to the `mco` user and have an ssh agent running. In fact, I could now even switch to Rundeck's default ssh plugin! I only needed to configure the default remote ssh user in `framework.properties` (and set some other sane defaults) and I was done:
 
 ```puppet
   class { '::rundeck':
@@ -95,12 +106,52 @@ Great! Still works, but now `whoami` returned `mco` instead. Some playing around
   }
 ```
 
+**Current state:**
+
+* mCollective provides the list of nodes with metadata to Rundeck via an interface script
+* Rundeck directly connects to a normal remote user over ssh via a key pair
+* the effective remote user is **not** "root"
+* the remote user however has unrestricted sudo-capabilities (managed via sudoers) 
+
 ## Integrating Rundeck and PuppetDB
 
 The question kept nagging me: what was mCollective's added value here? It gives me a list of nodes with metadata. But the metadata actually comes from puppet and facter. Metadata that happened to be stored in the PuppetDB... 
 
-So I did a quick search and found a solution: `puppetdb-rundeck`
+So I did a quick search and found a solution: [puppetdb2-rundeck](https://github.com/sirloper/puppetdb2-rundeck)
+
+This is a Sinatra app, providing a REST-bridge between PuppetDB and Rundeck. Without any additional config, I could start the app, and `curl` returned the list of servers found in PuppetDB with some metadata. Great! 
+
+I changed the Rundeck project's node source to "url" and pointed it to the Sinatra app. Refreshing the node list took a few seconds, and then gave me a full list, complete with metadata filters. To make sure this keeps working, I added the Ruby script and the Sinatra config to puppet, and included a Systemd unit file to control it. 
+
+Since mCollective was now out of the picture, I decided to rename the special "mco" user to "rundeck-user". Again, puppet made this a simple task. 
+
+**Current state:**
+
+* PuppetDB provides the list of nodes with metadata to Rundeck via a bridge
+* Rundeck directly connects to a normal remote user "rundeck-user" over ssh via a key pair
+* the effective remote user is **not** "root"
+* the remote user however has unrestricted sudo-capabilities (for now at least, managed via sudoers) 
+
+## A final bug to fix
+
+Everytime I ran a command on all servers, I ended up with a Java error (after a lot of successful commands):
+
+```
+java.lang.IllegalArgumentException: Null hostname value
+```
+
+The stack trace being what it was, the execution also just stopped (only about half the nodes executed the command, then came the stack trace and execution stopped), and the final job report was purged because of the error. This was a severe issue. 
+
+And a strange error, since the information comes from PuppetDB... 
+
+After playing with the node filter, I found that the error occurred when any of a specific set of servers were included. And looking those up in PuppetDB, I discovered that they really did not have a `hostname` fact. Those servers had at some point been added to the PuppetDB, but they had never submitted a catalog or fact list. (How? Why? Who could I blame? ;-))
+
+I could fix those nodes now, but chances where real that other nodes would be added later without `hostname`, if only temporarily. I could not risk production jobs to fail because of that. 
+
+For now, I settled on patching the bridge between Rundeck and PuppetDB, filtering the list of nodes returned by excluding the nodes without `hostname` field. Now running a command across all servers and with a success code, and a full report. Great! 
 
 ## Things to look at
 
-* https://github.com/opentable/puppetdb_rundeck
+* send the patch on the bridge to interested parties
+* deploy Rundeck projects with git
+* maybe switch to an existing puppet module (eg. https://github.com/opentable/puppetdb_rundeck)
