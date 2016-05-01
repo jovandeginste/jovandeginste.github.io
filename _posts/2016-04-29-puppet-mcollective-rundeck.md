@@ -33,7 +33,7 @@ One shell script and some sudo config were needed on the Rundeck server and we w
 Script `/usr/local/bin/mcowrapper`:
 
 ```bash
-#!/bin/bash
+# !/bin/bash
 
 SSH_AUTH_SOCK=$HOME/ssh.sock
 export SSH_AUTH_SOCK
@@ -77,7 +77,7 @@ Next step was the "node executor", which will allow Rundeck to actually execute 
 Here I started to get confused. The options were "ssh", "script" and "stub". Logical choice was "script", at which point I could specify a command line. I could use variables like `${node.hostname}`, `${node.username}` and `${exec.command}`. At this point I started realizing that I was not going to leverage mCollective for the parallel execution - Rundeck would be doing this by itself. Nevertheless I typed the command line, if only to verify that it worked.
 
 ```
-/usr/local/bin/mcowrapper shell -I ${node.hostname} run ${exec.command}
+sudo -u mco /usr/local/bin/mcowrapper shell -I ${node.hostname} run ${exec.command}
 ```
 
 It worked: I now had the uptime of all nodes that I selected. The command `whoami` returned "root", as expected. Great, but I was left with the feeling that an opportunity was missed... 
