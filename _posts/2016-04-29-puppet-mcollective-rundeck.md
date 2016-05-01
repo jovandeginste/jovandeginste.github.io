@@ -136,10 +136,11 @@ Since mCollective was now out of the picture, I decided to rename the special "m
 
 ## A final bug to fix
 
-Meanwhile, the rundeck-user was added to all nodes in our puppet environment. And now, everytime I ran a command on all servers, I ended up with a Java error (after a lot of successful commands):
+Meanwhile, the rundeck-user was added to all nodes in our puppet environment. And now, everytime I ran a command on all servers, I ended up with an error (after a lot of successful commands):
 
 ```
-java.lang.IllegalArgumentException: Null hostname value
+2016-04-29 18:24:23,965 [qtp1545044507-58] INFO  grails.app.services.rundeck.services.ScheduledExecutionService - scheduling temp job: TEMP:admin:75
+2016-04-29 18:24:24,038 [quartzScheduler_Worker-7] ERROR grails.app.services.rundeck.services.ExecutionUtilService - Execution failed: 75: Null hostname value
 ```
 
 The stack trace being what it was, the execution also just stopped (only about half the nodes executed the command, then came the stack trace and execution stopped), and the final job report was purged because of the error. This was a severe issue. 
