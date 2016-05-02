@@ -147,9 +147,25 @@ The stack trace being what it was, the execution also just stopped (only about h
 
 And a strange error, since the information comes from PuppetDB...
 
-After playing with the node filter, I found that the error occurred when any of a specific set of servers were included. And looking those up in PuppetDB, I discovered that they really did not have a `hostname` fact. Those servers had at some point been added to the PuppetDB, but they had never submitted a catalog or fact list. (How? Why? Who could I blame? ;-))
+After playing with the node filter, I found that the error occurred when any of a specific set of servers were included. And looking those up in PuppetDB, I discovered that they really did not have a `hostname` fact; the REST-bridge reflected this:
 
-I could fix those nodes now, but chances where real that other nodes would be added later without `hostname`, if only temporarily. I could not risk production jobs to fail because of that.
+```
+$ curl -s http://localhost:4567/ | grep -e good-server.domain -e bad-server.domain
+```
+
+```yaml
+good-server.domain:
+  hostname: good-server.domain
+  fqdn: good-server.domain
+  clientcert: good-server.domain
+bad-server.domain:
+  fqdn: bad-server.domain
+  clientcert: bad-server.domain
+```
+
+Those bad servers had at some point been added to the PuppetDB, but they had never submitted a catalog or fact list. (How? Why? Who could I blame? ;-))
+
+I could fix those nodes now in PuppetDB, but chances where real that other nodes would be added later without `hostname`, if only temporarily. I could not risk production jobs to fail because of that.
 
 For now, I settled on patching the bridge between Rundeck and PuppetDB, filtering the list of nodes returned by excluding the nodes without `hostname` field. Now running a command across all servers and with a success code, and a full report. Great!
 
