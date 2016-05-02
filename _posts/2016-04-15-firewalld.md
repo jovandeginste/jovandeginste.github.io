@@ -3,6 +3,7 @@ layout: post
 title:  "FirewallD doesn't handle xml correctly?"
 tags:
 - firewalld
+- puppet
 comments: true
 ---
 
@@ -48,7 +49,7 @@ Same rule, but the rule is entirely on a single line
 
 ```
 # firewall-cmd --direct --get-all-rules
-ipv6 filter FORWARD_direct 0 
+ipv6 filter FORWARD_direct 0
 ipv6 filter FORWARD_direct 0 -m set --match-set rabbitmq-iss-t-all src -m set --match-set rabbitmq-iss-t-local dst -j ACCEPT
 ```
 

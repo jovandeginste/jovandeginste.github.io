@@ -5,6 +5,7 @@ date: "2016-05-02 13:14:20 +0200"
 comments: true
 tags:
 - puppet
+- puppetdb
 - rundeck
 ---
 

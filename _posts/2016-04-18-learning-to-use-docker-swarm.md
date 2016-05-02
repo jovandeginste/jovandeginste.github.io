@@ -5,6 +5,7 @@ date: "2016-04-18 18:50:30 +0200"
 comments: true
 tags:
 - docker
+- docker-swarm
 ---
 
 Today I set out to finally learn to use (read: correctly deploy) Docker Swarm. It had to be repeateable (puppet!) and scaleable.
