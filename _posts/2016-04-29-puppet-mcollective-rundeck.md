@@ -6,11 +6,11 @@ comments: true
 categories: puppet
 ---
 
-This week I decided to finally spin up and integrate Rundeck with our puppet environment. Obviously, Rundeck should populate its node lists automatically from puppet in some way. 
+This week I decided to finally spin up and integrate Rundeck with our puppet environment. Obviously, Rundeck should populate its node lists automatically from puppet in some way.
 
 ## mCollective
 
-Many months ago, our consultant set up mCollective. There was an mCollective script/plugin for Rundeck, so I could try that path. 
+Many months ago, our consultant set up mCollective. There was an mCollective script/plugin for Rundeck, so I could try that path.
 
 Since I myself had not participated in the mCollective setup, I had very little knowledge of the inner workings, and therefore had some catching-up to do.
 
@@ -22,13 +22,13 @@ Ssh key authentication was enabled. This meant that anyone could use mCollective
 
 This does not mean that mCollective runs as that user on the remote machine! I tried this with `whoami`, this returned `root`...
 
-The mCollective daemon runs as root on the remote servers, but verified the user's access using the ssh keys. After that, the user is using mCollective's privileges. 
+The mCollective daemon runs as root on the remote servers, but verified the user's access using the ssh keys. After that, the user is using mCollective's privileges.
 
-This means some complications for the Rundeck setup, since Rundeck runs as a service. I would need a user on every machine, with the same name and public key. On the Rundeck server, that user would need the private key. I would need a way to start the ssh agent, and the user running Rundeck must be able to run commands as that other user. 
+This means some complications for the Rundeck setup, since Rundeck runs as a service. I would need a user on every machine, with the same name and public key. On the Rundeck server, that user would need the private key. I would need a way to start the ssh agent, and the user running Rundeck must be able to run commands as that other user.
 
-I defined the user (I called him "mco") with the keys in puppet and deployed this to a bunch of servers for testing. 
+I defined the user (I called him "mco") with the keys in puppet and deployed this to a bunch of servers for testing.
 
-One shell script and some sudo config were needed on the Rundeck server and we were ready to go. 
+One shell script and some sudo config were needed on the Rundeck server and we were ready to go.
 
 Script `/usr/local/bin/mcowrapper`:
 
@@ -56,7 +56,7 @@ rundeck ALL=(mco) NOPASSWD: /usr/local/bin/mcowrapper
 
 ## Rundeck
 
-The installation of rundeck was piece of cake using the puppet module. I defined a dummy Rundeck project in puppet, which was then created. The detailed configuration of projects and jobs had to wait until I had the integration part ready. 
+The installation of rundeck was piece of cake using the puppet module. I defined a dummy Rundeck project in puppet, which was then created. The detailed configuration of projects and jobs had to wait until I had the integration part ready.
 
 ## Integrating Rundeck and mCollective
 
@@ -72,7 +72,7 @@ I used `generate.rb` from [this repository](https://github.com/connaryscott/rund
 
 ### Node executor via mCollective
 
-Next step was the "node executor", which will allow Rundeck to actually execute commands on the remote servers. 
+Next step was the "node executor", which will allow Rundeck to actually execute commands on the remote servers.
 
 Here I started to get confused. The options were "ssh", "script" and "stub". Logical choice was "script", at which point I could specify a command line. I could use variables like `${node.hostname}`, `${node.username}` and `${exec.command}`. At this point I started realizing that I was not going to leverage mCollective for the parallel execution - Rundeck would be doing this by itself. Nevertheless I typed the command line, if only to verify that it worked.
 
@@ -80,7 +80,7 @@ Here I started to get confused. The options were "ssh", "script" and "stub". Log
 sudo -u mco /usr/local/bin/mcowrapper shell -I ${node.hostname} run ${exec.command}
 ```
 
-It worked: I now had the uptime of all nodes that I selected. The command `whoami` returned "root", as expected. Great, but I was left with the feeling that an opportunity was missed... 
+It worked: I now had the uptime of all nodes that I selected. The command `whoami` returned "root", as expected. Great, but I was left with the feeling that an opportunity was missed...
 
 **Current state:**
 
@@ -113,26 +113,26 @@ Great! Still works, but now `whoami` returned "mco" instead. After playing aroun
 * mCollective provides the list of nodes with metadata to Rundeck via an interface script
 * Rundeck directly connects to a normal remote user over ssh via a key pair
 * the effective remote user is **not** "root"
-* the remote user however has unrestricted sudo-capabilities (managed via sudoers) 
+* the remote user however has unrestricted sudo-capabilities (managed via sudoers)
 
 ## Integrating Rundeck and PuppetDB
 
-The question kept nagging me: what was mCollective's added value here? It gives me a list of nodes with metadata. But the metadata actually comes from puppet and facter. Metadata that happened to be stored in the PuppetDB... 
+The question kept nagging me: what was mCollective's added value here? It gives me a list of nodes with metadata. But the metadata actually comes from puppet and facter. Metadata that happened to be stored in the PuppetDB...
 
 So I did a quick search and found a possible solution: [puppetdb2-rundeck](https://github.com/sirloper/puppetdb2-rundeck)
 
-This is a Sinatra app, providing a REST-bridge between PuppetDB and Rundeck. Without any additional config, I could start the app on the same server running PuppetDB, and `curl` returned the list of servers found in PuppetDB with some metadata. Great! 
+This is a Sinatra app, providing a REST-bridge between PuppetDB and Rundeck. Without any additional config, I could start the app on the same server running PuppetDB, and `curl` returned the list of servers found in PuppetDB with some metadata. Great!
 
-I changed the Rundeck project's node source to "url" and pointed it to the Sinatra app. Refreshing the node list took a few seconds, and then gave me a full list, complete with metadata filters. To make sure this keeps working, I added the Ruby script and the Sinatra config to puppet, and included a Systemd unit file to control it. 
+I changed the Rundeck project's node source to "url" and pointed it to the Sinatra app. Refreshing the node list took a few seconds, and then gave me a full list, complete with metadata filters. To make sure this keeps working, I added the Ruby script and the Sinatra config to puppet, and included a Systemd unit file to control it.
 
-Since mCollective was now out of the picture, I decided to rename the special "mco" user to "rundeck-user". Again, puppet made this a simple task. 
+Since mCollective was now out of the picture, I decided to rename the special "mco" user to "rundeck-user". Again, puppet made this a simple task.
 
 **Current state:**
 
 * PuppetDB provides the list of nodes with metadata to Rundeck via a bridge
 * Rundeck directly connects to a normal remote user "rundeck-user" over ssh via a key pair
 * the effective remote user is **not** "root"
-* the remote user however has unrestricted sudo-capabilities (for now at least, managed via sudoers) 
+* the remote user however has unrestricted sudo-capabilities (for now at least, managed via sudoers)
 
 ## A final bug to fix
 
@@ -143,20 +143,20 @@ Meanwhile, the rundeck-user was added to all nodes in our puppet environment. An
 2016-04-29 18:24:24,038 [quartzScheduler_Worker-7] ERROR grails.app.services.rundeck.services.ExecutionUtilService - Execution failed: 75: Null hostname value
 ```
 
-The stack trace being what it was, the execution also just stopped (only about half the nodes executed the command, then came the stack trace and execution stopped), and the final job report was purged because of the error. This was a severe issue. 
+The stack trace being what it was, the execution also just stopped (only about half the nodes executed the command, then came the stack trace and execution stopped), and the final job report was purged because of the error. This was a severe issue.
 
-And a strange error, since the information comes from PuppetDB... 
+And a strange error, since the information comes from PuppetDB...
 
 After playing with the node filter, I found that the error occurred when any of a specific set of servers were included. And looking those up in PuppetDB, I discovered that they really did not have a `hostname` fact. Those servers had at some point been added to the PuppetDB, but they had never submitted a catalog or fact list. (How? Why? Who could I blame? ;-))
 
-I could fix those nodes now, but chances where real that other nodes would be added later without `hostname`, if only temporarily. I could not risk production jobs to fail because of that. 
+I could fix those nodes now, but chances where real that other nodes would be added later without `hostname`, if only temporarily. I could not risk production jobs to fail because of that.
 
-For now, I settled on patching the bridge between Rundeck and PuppetDB, filtering the list of nodes returned by excluding the nodes without `hostname` field. Now running a command across all servers and with a success code, and a full report. Great! 
+For now, I settled on patching the bridge between Rundeck and PuppetDB, filtering the list of nodes returned by excluding the nodes without `hostname` field. Now running a command across all servers and with a success code, and a full report. Great!
 
 ## Things to look at later
 
 * send the patch on the bridge to interested parties
 * deploy Rundeck projects with git
 * maybe switch to an existing puppet module (eg. https://github.com/opentable/puppetdb_rundeck)
-* integrate with Jenkins 
-* integrate with Mattermost 
+* integrate with Jenkins
+* integrate with Mattermost
