@@ -105,9 +105,9 @@ Great! Still works, but now `whoami` returned "mco" instead. After playing aroun
 
 ```puppet
 class { '::rundeck':
-	framework_config      => {
-		framework.ssh.user'    => 'mco',
-	}
+  framework_config       => {
+    'framework.ssh.user' => 'mco',
+  }
 }
 ```
 
