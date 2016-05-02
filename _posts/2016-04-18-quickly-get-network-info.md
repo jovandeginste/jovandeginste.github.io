@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Quickly get network trace information from a server
-categories: network
+tags: network
 comments: true
 ---
 

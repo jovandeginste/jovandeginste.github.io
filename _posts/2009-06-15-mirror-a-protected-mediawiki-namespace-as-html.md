@@ -3,7 +3,7 @@ layout: post
 title: "Mirror a protected MediaWiki namespace as html"
 date: "2009-06-15 18:32:46 +0200"
 comments: true
-categories: mediawiki
+tags: mediawiki
 ---
 
 *Warning - this is from my archive*

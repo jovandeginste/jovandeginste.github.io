@@ -3,7 +3,7 @@ layout: post
 title: "Semi-automatic http gateway"
 date: "2009-06-19 15:24:36 +0200"
 comments: true
-categories: squid
+tags: squid
 ---
 
 *Warning - this is from my archive*

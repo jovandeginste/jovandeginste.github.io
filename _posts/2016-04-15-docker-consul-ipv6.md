@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Docker, consul, network and ipv6"
-categories: docker consul ipv6
+tags: docker consul ipv6
 comments: true
 ---
 

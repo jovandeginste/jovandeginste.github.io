@@ -3,7 +3,7 @@ layout: post
 title: "Rundeck and PuppetDB - use a gem"
 date: "2016-05-02 13:14:20 +0200"
 comments: true
-categories: rundeck
+tags: puppet rundeck
 ---
 
 After [deploying Rundeck]({% post_url 2016-04-29-puppet-mcollective-rundeck %}), I set out a few todo's for later. One of those was switching to the [puppetdb_rundeck gem](https://github.com/opentable/puppetdb_rundeck). After some manual testing, I found out that it actually worked as a drop-in replacement for the scripts that I had now. It even fixed the hostname issue. Only one drawback: it did not populate the tags automatically with the classes. On the other hand, that meant that I could customize the tags!

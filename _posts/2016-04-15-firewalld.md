@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "FirewallD doesn't handle xml correctly?"
-categories: firewalld
+tags: firewalld
 comments: true
 ---
 
