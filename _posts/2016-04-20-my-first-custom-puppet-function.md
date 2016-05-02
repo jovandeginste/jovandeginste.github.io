@@ -3,7 +3,8 @@ layout: post
 title: "My first custom puppet function"
 date: "2016-04-20 14:05:11 +0200"
 comments: true
-tags: puppet
+tags:
+- puppet
 ---
 
 This experience turned out to be a lot harder than expected. Not writing some custom function - that is dead easy. Getting done what I wanted was very hard :-)

@@ -3,7 +3,8 @@ layout: post
 title: "Hunting down FirewallD/puppet problems"
 date: "2016-04-19 21:15:04 +0200"
 comments: true
-tags: puppet
+tags:
+- puppet
 ---
 
 Today I lost a lot of time hunting for an issue between FirewallD and the Puppet module I use to manage FirewallD. The real weird issue was that it actually worked, but running puppet agent threw an annoying warning, and triggerd a full reload of FirewallD every time.

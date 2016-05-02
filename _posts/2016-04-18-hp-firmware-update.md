@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Simplifying HP firwmare updates
-tags: hp-firmware
+tags:
+- hp-firmware
 comments: true
 ---
 

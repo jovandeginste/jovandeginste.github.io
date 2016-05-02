@@ -3,7 +3,8 @@ layout: post
 title: "puppet, mcollective, rundeck"
 date: "2016-04-29 20:27:16 +0200"
 comments: true
-tags: puppet
+tags:
+- puppet
 ---
 
 This week I decided to finally spin up and integrate Rundeck with our puppet environment. Obviously, Rundeck should populate its node lists automatically from puppet in some way.

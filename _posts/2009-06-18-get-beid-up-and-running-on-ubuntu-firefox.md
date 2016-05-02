@@ -3,7 +3,8 @@ layout: post
 title: "Get beID up and running on Ubuntu+Firefox"
 date: "2009-06-18 09:29:46 +0200"
 comments: true
-tags: beid
+tags:
+- beid
 ---
 
 *Warning - this is from my archive*
