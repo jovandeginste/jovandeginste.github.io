@@ -6,7 +6,7 @@ comments: true
 categories: rundeck
 ---
 
-After [deploying Rundeck]({% post_url 2016-04-29-puppet-mcollective-rundeck.md %}), I set out a few todo's for later. One of those was switching to the [puppetdb_rundeck gem](https://github.com/opentable/puppetdb_rundeck). After some manual testing, I found out that it actually worked as a drop-in replacement for the scripts that I had now. It even fixed the hostname issue. Only one drawback: it did not populate the tags automatically with the classes. On the other hand, that meant that I could customize the tags!
+After [deploying Rundeck]({% post_url 2016-04-29-puppet-mcollective-rundeck %}), I set out a few todo's for later. One of those was switching to the [puppetdb_rundeck gem](https://github.com/opentable/puppetdb_rundeck). After some manual testing, I found out that it actually worked as a drop-in replacement for the scripts that I had now. It even fixed the hostname issue. Only one drawback: it did not populate the tags automatically with the classes. On the other hand, that meant that I could customize the tags!
 
 First things first: use the gem instead of the scripts I had. I could remove a lot of the code from my puppet profile for Rundeck. I only kept the Systemd unit file (slightly modified) and added a package requirement:
 
