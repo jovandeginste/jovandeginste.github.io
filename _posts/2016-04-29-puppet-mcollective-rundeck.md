@@ -104,11 +104,11 @@ ssh -l mco -o SomeOpts ${exec.command}
 Great! Still works, but now `whoami` returned "mco" instead. After playing around with sudoers on the remote servers, `sudo whoami` also worked. But I now got rid of the complex setup where Rundeck had to `su` to the `mco` user and have an ssh agent running. In fact, I could now even switch to Rundeck's default ssh plugin! I only needed to configure the default remote ssh user in `framework.properties` and I was done:
 
 ```puppet
-  class { '::rundeck':
-    framework_config      => {
-      'framework.ssh.user'    => 'mco',
-    }
-  }
+class { '::rundeck':
+	framework_config      => {
+		framework.ssh.user'    => 'mco',
+	}
+}
 ```
 
 **Current state:**
