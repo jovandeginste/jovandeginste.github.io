@@ -1,5 +1,5 @@
 File.read("_taglist.txt").split("\n").each do |tag|
-	File.write "#{tag}.html", <<-EOF
+	File.write "tags/#{tag}.html", <<-EOF
 ---
 layout: tagpage
 tag: #{tag}
