@@ -26,9 +26,9 @@ For every node, a list of tags was built combining each service on that node wit
 nodeX:
   tags:
   - serviceA
-	- serviceB
-	- serviceB:t1
-	- serviceB:t2
+  - serviceB
+  - serviceB:t1
+  - serviceB:t2
 ```
 
 The node's hostname would be it's Consul `address` field.
@@ -38,7 +38,7 @@ For the output, I decided to give a choice between yaml and json (and forget abo
 The resulting code: [Github Gist](https://gist.github.com/jovandeginste/4c7da1392e52bc985c75ef4f872c7843)
 
 ```ruby
-#!/usr/bin/env ruby
+# !/usr/bin/env ruby
 
 require 'getoptlong'
 require 'net/http'
