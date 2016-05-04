@@ -99,6 +99,9 @@ At this point, I tried if I was effectively blocked from changing the firewall r
 The firewall management script uses the `Faraday` gem to do the REST queries, so I added the token as a instance variable in the library and used it in the necessary places:
 
 ```ruby
+class ConsulFirewallManager
+	<...>
+
   def conn
     @conn ||= Faraday.new(:url => self.consul_server)
   end
@@ -139,6 +142,9 @@ The firewall management script uses the `Faraday` gem to do the REST queries, so
     return nil unless response
     return JSON.parse(response)
   end
+
+	<...>
+end
 ```
 
 (`fetch_rules` was not really necessary, since the world had read access for now, but I might want to change this in the future)
