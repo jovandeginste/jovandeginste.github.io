@@ -15,7 +15,7 @@ I created an includeable snippet:
 
 [_includes/tagcloud.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/_includes/tagcloud.html):
 
-```jekyll
+```html
 {.% capture site_tags %.}{.% for tag in site.tags %.}{{ tag | first }}{.% unless forloop.last %.},{.% endunless %.}{.% endfor %.}{.% endcapture %.}
 {.% assign site_tags = site_tags | split: ',' %.}
 
@@ -37,7 +37,7 @@ This expects a variable ```tags``` to be set to the list of tags to show and "cl
 
 [tags.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/tags.html):
 
-```jekyll
+```html
 ---
 layout: default
 title: Tags
@@ -57,7 +57,7 @@ permalink: /tags/
 
 [_layouts/post.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/_layouts/post.html):
 
-```jekyll
+```html
 ---
 layout: default
 ---
