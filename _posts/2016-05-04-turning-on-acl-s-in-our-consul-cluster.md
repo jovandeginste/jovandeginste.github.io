@@ -100,7 +100,7 @@ The firewall management script uses the `Faraday` gem to do the REST queries, so
 
 ```ruby
 class ConsulFirewallManager
-	<...>
+  <...>
 
   def conn
     @conn ||= Faraday.new(:url => self.consul_server)
@@ -143,7 +143,7 @@ class ConsulFirewallManager
     return JSON.parse(response)
   end
 
-	<...>
+  <...>
 end
 ```
 
