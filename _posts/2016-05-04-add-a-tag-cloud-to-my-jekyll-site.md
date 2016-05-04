@@ -26,7 +26,7 @@ I created an includeable snippet:
 
 {.% for tag in tags %.}
 <span style="white-space: nowrap; font-size: {{ site.tags[tag].size | times: 4.0 | divided_by: tag_count | plus: 1}}em; padding: 0.6em;">
-	<a href="{{ site.baseurl }}/tags/{{ tag }}" class="tag">{{ tag }}
+	<a href="{{ site.baseurl }}/tags/{{ tag | slugize }}" class="tag">{{ tag | slugize }}
 		<span>({{ site.tags[tag].size }})</span>
 	</a>
 </span>
