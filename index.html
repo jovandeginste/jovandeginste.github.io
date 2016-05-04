@@ -4,10 +4,14 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Latest posts</h1>
+  <h1 class="page-heading">Latest post</h1>
 	{% for post in site.posts limit:1 %}
 	<hr />
 	<span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+	<span class="post-meta">|</span>
+	<span class="post-meta">
+		Tags: {{ post.tags | sort | join: ", " }}
+	</span>
 
 	<h2>
 		<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
