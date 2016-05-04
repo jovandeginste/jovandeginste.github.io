@@ -7,22 +7,9 @@ permalink: /tags/
 <div class="home">
 
 	<h1 class="page-heading">All tags</h1>
+	<p class="post-meta" style="text-align: justify;">
 	{% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
-	{% assign tag_words = site_tags | split:',' | sort %}
-
-	{% comment %}This will calculate the total number of tags (non-unique!){% endcomment %}
-	{% assign tag_count = 0 %}
-	{% for tag in tag_words %}
-	{% assign tag_count = tag_count | plus: site.tags[tag].size %}
-	{% endfor %}
-
-	<div style="text-align: justify;">
-		{% for tag in tag_words %}
-		<span style="white-space: nowrap; font-size: {{ site.tags[tag].size | times: 3.0 | divided_by: tag_count | plus: 1}}em; padding: 0.6em;">
-			<a href="{{ tag | cgi_escape }}" class="tag">{{ tag }}
-				<span>({{ site.tags[tag].size }})</span>
-			</a>
-		</span>
-		{% endfor %}
-	</div>
+	{% assign tags = site_tags | split:',' | sort %}
+	{% include tagcloud.html %}
+	</p>
 </div>
