@@ -9,7 +9,15 @@ tags:
 
 As a matter of cosmetic improvement, I wanted my list of tags per post to be more like the tag clouds. I also wanted a page with all tags in a cloud. I let myself be inspired by [these](http://vvv.tobiassjosten.net/jekyll/jekyll-tag-cloud/) [examples](https://superdevresources.com/tag-cloud-jekyll/) and (in my opinion) improved them.
 
-What was missing? Those examples based themselves on a wrong ratio: the size of each tag was calculated as `min + factor * (occurences of tag X) / (total number of unique tags)`. What I wanted was: `min + factor * (occurences of tag X) / (total number of tags)`. Subtle difference, but I thought it was important enough...
+What was missing? Those examples based themselves on a wrong ratio: the size of each tag X was calculated as:
+
+`min + factor * (occurences of tag X) / (total number of unique tags)`
+
+What I wanted was:
+
+`min + factor * (occurences of tag X) / (total number of tags)`
+
+Subtle difference, but I thought it was important enough...
 
 I created an includeable snippet:
 
