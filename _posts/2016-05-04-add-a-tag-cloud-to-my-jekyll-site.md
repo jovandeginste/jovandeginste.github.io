@@ -16,7 +16,6 @@ I created an includeable snippet:
 [_includes/tagcloud.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/_includes/tagcloud.html):
 
 ```jekyll
-<tagcloud class="tagcloud">
 {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
 {% assign site_tags = site_tags | split: ',' %}
 
@@ -32,7 +31,6 @@ I created an includeable snippet:
 	</a>
 </span>
 {% endfor %}
-</tagcloud>
 ```
 
 This expects a variable ```tags``` to be set to the list of tags to show and "cloudify". I can include it for the general tag page and for the individual post page.
@@ -57,13 +55,14 @@ permalink: /tags/
 </div>
 ```
 
-part of [_layouts/post.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/_layouts/post.html):
+[_layouts/post.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/_layouts/post.html):
 
 ```jekyll
 ---
 layout: default
 ---
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
 	<header class="post-header">
 		<h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
 		<p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
@@ -77,5 +76,7 @@ layout: default
 	<div class="post-content" itemprop="articleBody">
 		{{ content }}
 	</div>
+
+	{% include disqus.html %}
 </article>
 ```
