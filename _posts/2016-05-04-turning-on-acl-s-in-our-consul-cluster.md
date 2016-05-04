@@ -3,7 +3,6 @@ layout: post
 title: "Turning on ACL's in our Consul cluster"
 date: "2016-05-04 18:14:19 +0200"
 comments: true
-published: false
 tags:
 - consul
 ---
