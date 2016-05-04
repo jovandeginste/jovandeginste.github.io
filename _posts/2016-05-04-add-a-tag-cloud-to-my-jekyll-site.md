@@ -16,21 +16,21 @@ I created an includeable snippet:
 [_includes/tagcloud.html](https://github.com/jovandeginste/jovandeginste.github.io/blob/master/_includes/tagcloud.html):
 
 ```jekyll
-{% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
-{% assign site_tags = site_tags | split: ',' %}
+{.% capture site_tags %.}{.% for tag in site.tags %.}{{ tag | first }}{.% unless forloop.last %.},{.% endunless %.}{.% endfor %.}{.% endcapture %.}
+{.% assign site_tags = site_tags | split: ',' %.}
 
-{% assign tag_count = 0 %}
-{% for tag in site_tags %}
-{% assign tag_count = tag_count | plus: site.tags[tag].size %}
-{% endfor %}
+{.% assign tag_count = 0 %.}
+{.% for tag in site_tags %.}
+{.% assign tag_count = tag_count | plus: site.tags[tag].size %.}
+{.% endfor %.}
 
-{% for tag in tags %}
+{.% for tag in tags %.}
 <span style="white-space: nowrap; font-size: {{ site.tags[tag].size | times: 4.0 | divided_by: tag_count | plus: 1}}em; padding: 0.6em;">
 	<a href="{{ site.baseurl }}/tags/{{ tag }}" class="tag">{{ tag }}
 		<span>({{ site.tags[tag].size }})</span>
 	</a>
 </span>
-{% endfor %}
+{.% endfor %.}
 ```
 
 This expects a variable ```tags``` to be set to the list of tags to show and "cloudify". I can include it for the general tag page and for the individual post page.
@@ -48,9 +48,9 @@ permalink: /tags/
 	<h1 class="page-heading">All tags</h1>
 
 	<p class="post-meta" style="text-align: justify;">
-	{% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
-	{% assign tags = site_tags | split:',' | sort %}
-	{% include tagcloud.html %}
+	{.% capture site_tags %.}{.% for tag in site.tags %.}{{ tag | first }}{.% unless forloop.last %.},{.% endunless %.}{.% endfor %.}{.% endcapture %.}
+	{.% assign tags = site_tags | split:',' | sort %.}
+	{.% include tagcloud.html %.}
 	</p>
 </div>
 ```
@@ -65,11 +65,11 @@ layout: default
 
 	<header class="post-header">
 		<h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-		<p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
+		<p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{.% if page.author %.} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{.% endif %.}</p>
 		<p class="post-meta" style="text-align: justify;">
 		Tags:
-		{% assign tags = page.tags | sort %}
-		{% include tagcloud.html %}
+		{.% assign tags = page.tags | sort %.}
+		{.% include tagcloud.html %.}
 		</p>
 	</header>
 
@@ -77,6 +77,6 @@ layout: default
 		{{ content }}
 	</div>
 
-	{% include disqus.html %}
+	{.% include disqus.html %.}
 </article>
 ```
