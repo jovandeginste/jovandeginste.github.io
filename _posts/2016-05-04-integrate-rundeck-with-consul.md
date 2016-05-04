@@ -9,7 +9,7 @@ tags:
 - ruby
 ---
 
-Last week I [deployed Rundeck]({% post_url 2016-04-29-puppet-mcollective-rundeck %}) and this week I [integrated it with PuppetDB]({% post_url 2016-05-02-rundeck-and-puppetdb-use-a-gem.md %}). I'm not sure yet if it will be very useful, but as a proof of concept if nothing else I wanted to integrate Rundeck with Consul. This meant having Consul as a node resource for Rundeck, so I could select nodes based on the Consul services and tags they were offering.
+Last week I [deployed Rundeck]({% post_url 2016-04-29-puppet-mcollective-rundeck %}) and this week I [integrated it with PuppetDB]({% post_url 2016-05-02-rundeck-and-puppetdb-use-a-gem %}). I'm not sure yet if it will be very useful, but as a proof of concept if nothing else I wanted to integrate Rundeck with Consul. This meant having Consul as a node resource for Rundeck, so I could select nodes based on the Consul services and tags they were offering.
 
 A quick search revealed [this Github project](https://github.com/saymedia/rundeck-consul-resource-model), which more or less worked. However, I had to provide a service as paramter, while what I wanted was a full list of nodes with their tags. Couldn't be too hard, so I set off in Ruby - Golang, while nice and everything, was not the right tool for a PoC.
 
