@@ -1,4 +1,0 @@
-docker
-jenkins
-puppet
-rundeck
