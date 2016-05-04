@@ -26,10 +26,10 @@ Easiest way to turn on ACLS turned out to be: add a new json file in Consul's da
 
 ```json
 {
-	"acl_datacenter":"mydc",
-	"acl_default_policy":"allow",
-	"acl_down_policy":"allow",
-	"acl_master_token":"398073a8-5091-4d9c-871a-bbbeb030d1f6"
+  "acl_datacenter":"mydc",
+  "acl_default_policy":"allow",
+  "acl_down_policy":"allow",
+  "acl_master_token":"398073a8-5091-4d9c-871a-bbbeb030d1f6"
 }
 ```
 
@@ -75,10 +75,10 @@ Now was the big moment. I changed the puppet configuration to "deny" instead of 
 
 ```json
 {
-	"acl_datacenter":"mydc",
-	"acl_default_policy":"deny",
-	"acl_down_policy":"deny",
-	"acl_master_token":"398073a8-5091-4d9c-871a-bbbeb030d1f6"
+  "acl_datacenter":"mydc",
+  "acl_default_policy":"deny",
+  "acl_down_policy":"deny",
+  "acl_master_token":"398073a8-5091-4d9c-871a-bbbeb030d1f6"
 }
 ```
 
