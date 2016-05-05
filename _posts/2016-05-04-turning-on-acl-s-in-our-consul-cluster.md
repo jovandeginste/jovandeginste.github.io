@@ -22,7 +22,7 @@ Steps taken:
 
 This was the most risky thing - it involved changing crucial configuration and restarting all Consul servers. This has proven to be a hazard in the past, so I proceeded with great care. My screwing up the quality cluster was entirely my own fault, by the way. I was really not careful here. I learned my lesson again :-)
 
-Easiest way to turn on ACLS turned out to be: add a new json file in Consul's data dir. We have the datadir in `/usr/share/consul/`, so I let Puppet add a file `/usr/share/consul/master.json`:
+Easiest way to turn on ACL's turned out to be: add a new json file in Consul's data dir. We have the datadir in `/usr/share/consul/`, so I let Puppet add a file `/usr/share/consul/master.json`:
 
 ```json
 {
@@ -35,9 +35,9 @@ Easiest way to turn on ACLS turned out to be: add a new json file in Consul's da
 
 The master token was self-generated, using Linux's `uuidgen` (I generated a new one for this post, by the way ;-))
 
-When all servers had this config file, I restarted the Consul server on each server separately and verified that it came back and joined the cluster. The ACL's only kicked in when the last server was restarted, and then I got no longer the "ACL's are disabled" message on `http://consul.service.consul:8500/ui/#/mydc/acls`, but a `Access Denied`.
+When all servers had this config file, I restarted the Consul server on each server separately and verified that it came back and joined the cluster. The ACL's only kicked in when the last server was restarted, and then I got no longer the "ACL's are disabled" message in [ACL](http://consul.service.consul:8500/ui/#/mydc/acls), but "Access Denied".
 
-Now I added the master ACL token in the field at `http://consul.service.consul:8500/ui/#/mydc/settings`, clicked back to ACL and behold!
+Now I added the master ACL token in the field in [settings](http://consul.service.consul:8500/ui/#/mydc/settings), clicked back to ACL and behold!
 
 ### Step 2. give "Anonymous" the necessary access
 
