@@ -11,4 +11,7 @@
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="shortcut icon" type="image/jpg" href="{{ "/favicon.jpg" | prepend: site.baseurl }}" >
+	<meta property="og:title" content="{{ page.title }}"/>
+	<meta property="og:description" content="{{ page.excerpt }}"/>
+	<meta property="og:url" content="{{ site.url }}{{ page.url }}" />
 </head>

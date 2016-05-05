@@ -1,0 +1,9 @@
+Share this
+<ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&t={{ page.title | cgi_escape }}" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&text={{ page.title | cgi_escape }}:%20{{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&via={{ site.twitter_username | cgi_escape }}" target="_blank" title="Tweet"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+  <li><a href="https://plus.google.com/share?url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank" title="Share on Google+"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+  <li><a href="http://www.reddit.com/submit?url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&title={{ page.title | cgi_escape }}" target="_blank" title="Submit to Reddit"><i class="fa fa-reddit-square fa-2x"></i></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&title={{ page.title | cgi_escape }}&summary={{ page.excerpt | cgi_escape }}&source={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank" title="Share on LinkedIn"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+  <li><a href="mailto:?subject={{ page.title | cgi_escape }}&body={{ page.excerpt | cgi_escape }}:%20{{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank" title="Email"><i class="fa fa-envelope-square fa-2x"></i></a></li>
+</ul>
