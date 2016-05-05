@@ -11,6 +11,8 @@ For a long time, having ACL's in our Consul cluster was on my todo-list. Now I c
 
 We have been running Consul for about a year now. The first few weeks I screwed it up from time to time, and sometimes it was on purpose (eg. when I enabled gossip encryption - another necessary step). This time I managed to screw up our quality cluster (which is not a big issue), but the production cluster had not a moment of downtime or (unwanted) diminished usability. Unwanted, because the whole plan was to diminish the usability by limiting access :-)
 
+I rougly followed [this guide](https://www.mauras.ch/securing-consul.html)
+
 Steps taken:
 
 1. enable ACL's in general, but be permissive
