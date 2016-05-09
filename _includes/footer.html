@@ -2,16 +2,16 @@
 
 	<div class="wrapper">
 		<div class="footer-col-wrapper">
+			<div class="footer-col footer-col-2">
+				<img src="{{ "/favicon.jpg" | prepend: site.baseurl }}" height="90px" style="padding: 5px;"/>
+			</div>
+
 			<div class="footer-col footer-col-1">
-				<img src="{{ "/favicon.jpg" | prepend: site.baseurl }}" height="60px" style="float: right; padding-right: 5px;"/>
 				<ul class="contact-list">
 					<li>{{ site.name }}</li>
 					<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+					<li>{% include social-links.html %}</li>
 				</ul>
-			</div>
-
-			<div class="footer-col footer-col-2">
-				{% include social-links.html %}
 			</div>
 
 			<div class="footer-col footer-col-3">
