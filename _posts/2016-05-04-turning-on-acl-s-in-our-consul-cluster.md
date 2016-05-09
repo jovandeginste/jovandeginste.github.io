@@ -149,6 +149,6 @@ class ConsulFirewallManager
 end
 ```
 
-(`fetch_rules` was not really necessary, since the world had read access for now, but I might want to change this in the future)
+(changing `fetch_rules` was not really necessary, since the world had read access for now, but I might want to change this in the future)
 
 I passed the token to the library, and behold! I could change the firewall rules again. Mission accomplished.
