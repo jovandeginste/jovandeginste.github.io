@@ -1,14 +1,41 @@
-{% if page.excerpt %}
-{% assign my_excerpt = page.excerpt | strip_html | cgi_escape %}
+{% if page.description %}
+{% assign my_excerpt = page.description %}
 {% else %}
-{% assign my_excerpt = site.description | cgi_escape %}
+{% assign my_excerpt = page.excerpt | strip_html %}
 {% endif %}
+{% assign page_url = site.url | append: page.url | cgi_escape %}
+{% assign page_title = page.title | cgi_escape %}
+
 <p class="share-buttons">Share this:</p>
 <ul class="share-buttons">
-  <li><a href="https://twitter.com/intent/tweet?source={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&text={{ page.title | cgi_escape }}:%20{{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&via={{ site.twitter_username | cgi_escape }}" target="_blank" title="Tweet" class="fa fa-twitter">&nbsp;</a></li>
-  <li><a href="https://plus.google.com/share?url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank" title="Share on Google+" class="fa fa-google-plus">&nbsp;</a></li>
-  <li><a href="http://www.reddit.com/submit?url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&title={{ page.title | cgi_escape }}" target="_blank" title="Submit to Reddit" class="fa fa-reddit">&nbsp;</a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&title={{ page.title | cgi_escape }}&summary={{ my_excerpt }}&source={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank" title="Share on LinkedIn" class="fa fa-linkedin">&nbsp;</a></li>
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url | cgi_escape }}{{ page.url | cgi_escape }}&t={{ page.title | cgi_escape }}" target="_blank" title="Share on Facebook" class="fa fa-facebook">&nbsp;</a></li>
-  <li><a href="mailto:?subject={{ page.title | cgi_escape }}&body={{ my_excerpt }}:%20{{ site.url | cgi_escape }}{{ page.url | cgi_escape }}" target="_blank" title="Email" class="fa fa-envelope">&nbsp;</a></li>
+	<li>
+	<a
+		href="https://twitter.com/intent/tweet?source={{ page_url }}&text={{ page_title }}:%20{{ page_url }}&via={{ site.twitter_username | cgi_escape }}"
+		target="_blank" title="Tweet" class="fa fa-twitter">&nbsp;</a>
+	</li>
+	<li>
+	<a
+		href="https://plus.google.com/share?url={{ page_url }}"
+		target="_blank" title="Share on Google+" class="fa fa-google-plus">&nbsp;</a>
+	</li>
+	<li>
+	<a
+		href="http://www.reddit.com/submit?url={{ page_url }}&title={{ page_title }}"
+		target="_blank" title="Submit to Reddit" class="fa fa-reddit">&nbsp;</a>
+	</li>
+	<li>
+	<a
+		href="http://www.linkedin.com/shareArticle?mini=true&url={{ page_url }}&title={{ page_title }}&summary={{ my_excerpt }}&source={{ page_url }}"
+		target="_blank" title="Share on LinkedIn" class="fa fa-linkedin">&nbsp;</a>
+	</li>
+	<li>
+	<a
+		href="https://www.facebook.com/sharer/sharer.php?u={{ page_url }}&t={{ page_title }}"
+		target="_blank" title="Share on Facebook" class="fa fa-facebook">&nbsp;</a>
+	</li>
+	<li>
+	<a
+		href="mailto:?subject={{ page.title }}&body={{ my_excerpt }}%0A%0A({{ page_url }})"
+		target="_blank" title="Share via e-mail" class="fa fa-envelope">&nbsp;</a>
+	</li>
 </ul>
