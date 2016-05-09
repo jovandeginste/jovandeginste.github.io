@@ -10,8 +10,8 @@ title: Yet Another SysAdmin trying to do his job...
 name: Jo Vandeginste
 email: jo.vandeginste@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  I'm a Linux SysAdmin at a university's central IT department, learning some
-  new (to me) tools and usually struggling to get them working in our corporate
+  I'm a Linux SysAdmin at a university's central IT department. I try to learn some
+  new (to me) tools and usually struggle to get them working in our corporate
   environment.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://jovandeginste.github.io" # the base hostname & protocol for your site

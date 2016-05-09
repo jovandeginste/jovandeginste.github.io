@@ -2,11 +2,10 @@
 
 	<div class="wrapper">
 		<div class="footer-col-wrapper">
-			<div class="footer-col footer-col-2">
-				<img src="{{ "/foto.jpg" | prepend: site.baseurl }}" height="90px" style="padding: 5px;"/>
-			</div>
-
 			<div class="footer-col footer-col-1">
+				<img
+				style="border:1px solid #; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; margin-right: 25px; float: left;"
+				src="{{ "/foto.jpg" | prepend: site.baseurl }}" height="90px" />
 				<div>{{ site.name }}</div>
 				{% include social-links.html %}
 			</div>
