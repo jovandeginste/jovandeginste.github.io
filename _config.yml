@@ -24,3 +24,4 @@ google_plus_username: jovandeginste
 markdown: kramdown
 gems:
   - jekyll-sitemap
+  - jemoji
