@@ -22,3 +22,5 @@ google_plus_username: jovandeginste
 
 # Build settings
 markdown: kramdown
+gems:
+  - jekyll-sitemap
