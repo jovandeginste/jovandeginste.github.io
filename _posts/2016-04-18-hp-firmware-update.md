@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Simplifying HP firwmare updates
+date: Mon Apr 18 10:56:40 2016 +0200
+author: jovandeginste
 tags:
 - hp-firmware
 comments: true

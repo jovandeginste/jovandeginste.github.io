@@ -1,6 +1,8 @@
 ---
 layout: post
 title:  "FirewallD doesn't handle xml correctly?"
+date: Fri Apr 15 21:56:41 2016 +0200
+author: jovandeginste
 tags:
 - firewalld
 - puppet
