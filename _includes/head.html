@@ -1,3 +1,4 @@
+{% assign author = site.data.authors[page.author] %}
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +12,30 @@
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link rel="shortcut icon" type="image/jpg" href="{{ "/favicon.png" | prepend: site.baseurl }}" >
-	<meta property="og:title" content="{{ page.title }}"/>
-	<meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}"/>
+
+	<meta property="og:site_name" content="{{ site.title }}">
+	{% if page.title %}
+	<meta content="{{ page.title }}" property="og:title">
+	<meta property="og:type" content="article">
+	<meta property="og:description" content="{{ page.excerpt | strip_html }}"/>
+	{% else %}
+	<meta content="{{ site.title }}" property="og:title">
+	<meta property="og:type" content="website">
+	<meta content="{{ site.description }}" property="og:description">
+	{% endif %}
+	{% if page.date %}
+	<meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
+	<meta content="{{ site.url }}/about/" property="article:author">
+	{% endif %}
 	<meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+	{% if page.tags %}
+	{% for tag in page.tags %}
+	<meta property="article:tag" content="{{ tag }}">
+	{% endfor %}
+	{% endif %}
+	{% if author %}
+	<meta property="author:name" content="{{ author.name }}" />
+	<meta property="author:email" content="{{ author.email }}" />
+	<meta property="author:image" content="{{ author.image }}" />
+	{% endif %}
 </head>
