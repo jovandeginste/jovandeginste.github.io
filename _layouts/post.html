@@ -11,7 +11,7 @@ layout: default
 		<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>
 		{% if author %} •
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-			<span rel="publisher" itemprop="name">{{ author.name }}</span>
+			<span itemprop="name">{{ author.name }}</span>
 			<meta itemprop="email" content="{{ author.email }}" />
 			<meta itemprop="image" content="{{ author.image }}" />
 			{% if author.email %}
@@ -21,6 +21,9 @@ layout: default
 				href="mailto:{{ site.email }}">&nbsp;</a>
 			{% endif %}
 		</span>
+		<meta itemprop="publisher" itemtype="http://schema.org/Organization" itemscope="">
+		<meta itemprop="name">{{ site.name }}</meta>
+		</meta>
 		{% endif %}
 		<meta itemprop="mainEntityOfPage" content="{{ site.url }}" />
 		</p>
