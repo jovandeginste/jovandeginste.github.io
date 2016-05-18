@@ -2,6 +2,7 @@
 layout: post
 title: "MySQL query gone wild"
 date: "2016-05-13 10:17:28 +0200"
+author: jovandeginste
 comments: true
 tags:
 - mysql

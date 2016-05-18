@@ -1,6 +1,8 @@
 ---
 layout: post
 title: "Docker, consul, network and ipv6"
+date: Fri Apr 15 21:56:41 2016 +0200
+author: jovandeginste
 tags:
 - docker
 - consul

@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Quickly get network trace information from a server
+date: Mon Apr 18 11:38:01 2016 +0200
+author: jovandeginste
 tags:
 - network
 comments: true
