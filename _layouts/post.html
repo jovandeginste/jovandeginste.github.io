@@ -22,7 +22,8 @@ layout: default
 			{% endif %}
 		</span>
 		<meta itemprop="publisher" itemtype="http://schema.org/Organization" itemscope="">
-		<meta itemprop="name">{{ site.name }}</meta>
+		<meta itemprop="name" content="{{ site.name }}" />
+		<meta itemprop="url" src="{{ site.url }}favicon.png" />
 		</meta>
 		{% endif %}
 		<meta itemprop="mainEntityOfPage" content="{{ site.url }}" />
