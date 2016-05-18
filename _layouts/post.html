@@ -13,6 +13,7 @@ layout: default
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<span itemprop="name">{{ author.name }}</span>
 			<meta itemprop="email" content="{{ author.email }}" />
+			<meta itemprop="image" content="{{ author.image }}" />
 			{% if author.email %}
 			<a
 				class="fa fa-envelope"
