@@ -21,10 +21,10 @@ layout: default
 				href="mailto:{{ site.email }}">&nbsp;</a>
 			{% endif %}
 		</span>
-		<meta itemprop="publisher" itemtype="http://schema.org/Organization" itemscope="">
+		<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
 		<meta itemprop="name" content="{{ site.name }}" />
 		<meta itemprop="url" src="{{ site.url }}favicon.png" />
-		</meta>
+		</span>
 		{% endif %}
 		<meta itemprop="mainEntityOfPage" content="{{ site.url }}" />
 		</p>
