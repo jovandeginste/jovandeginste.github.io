@@ -23,7 +23,9 @@ layout: default
 		</span>
 		<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
 		<meta itemprop="name" content="{{ site.name }}" />
-		<meta itemprop="url" src="{{ site.url }}favicon.png" />
+		<span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+			<meta itemprop="url" src="{{ site.url }}favicon.png" />
+		</span>
 		</span>
 		{% endif %}
 		<meta itemprop="mainEntityOfPage" content="{{ site.url }}" />
