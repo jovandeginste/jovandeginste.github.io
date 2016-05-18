@@ -17,11 +17,13 @@ layout: default
 			<a
 				class="fa fa-envelope"
 				title="contact me via e-mail"
-				href="mailto:{{ site.email }}">&nbps;</a>
+				href="mailto:{{ site.email }}">&nbsp;</a>
 			{% endif %}
 		</span>
 		{% endif %}
-		<meta itemprop="publisher" content="{{ site.name }}" />
+		<meta itemprop="publisher" itemscope itemtype="http://schema.org/Person">
+		<meta itemprop="name" content="{{ site.name }}" />
+		</meta>
 		<meta itemprop="image" content="/favicon.jpg" />
 		</p>
 		<p class="post-meta" style="text-align: justify;">
