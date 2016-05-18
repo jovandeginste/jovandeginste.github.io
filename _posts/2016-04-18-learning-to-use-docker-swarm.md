@@ -2,7 +2,6 @@
 layout: post
 title: "Learning to use Docker Swarm"
 date: "2016-04-18 18:50:30 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - docker

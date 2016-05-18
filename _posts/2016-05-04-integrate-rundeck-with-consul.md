@@ -2,7 +2,6 @@
 layout: post
 title: "Integrate Rundeck with Consul"
 date: "2016-05-04 09:38:40 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - rundeck

@@ -2,7 +2,6 @@
 layout: post
 title: "Using PlatformIO to compile for Jeelabs' Jeenode Micro"
 date: "2016-05-11 12:44:46 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - platformio

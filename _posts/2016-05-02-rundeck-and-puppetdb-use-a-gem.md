@@ -2,7 +2,6 @@
 layout: post
 title: "Rundeck and PuppetDB - use a gem"
 date: "2016-05-02 13:14:20 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - puppet

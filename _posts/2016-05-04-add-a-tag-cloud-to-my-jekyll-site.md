@@ -2,7 +2,6 @@
 layout: post
 title: "Add a tag cloud to my Jekyll site"
 date: "2016-05-04 11:29:16 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - jekyll

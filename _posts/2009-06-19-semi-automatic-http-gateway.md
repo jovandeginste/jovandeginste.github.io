@@ -2,7 +2,6 @@
 layout: post
 title: "Semi-automatic http gateway"
 date: "2009-06-19 15:24:36 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - squid

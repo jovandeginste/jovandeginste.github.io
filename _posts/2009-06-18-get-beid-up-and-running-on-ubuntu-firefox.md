@@ -2,7 +2,6 @@
 layout: post
 title: "Get beID up and running on Ubuntu+Firefox"
 date: "2009-06-18 09:29:46 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - beid

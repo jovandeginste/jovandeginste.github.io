@@ -2,7 +2,6 @@
 layout: post
 title: "Hunting down FirewallD/puppet problems"
 date: "2016-04-19 21:15:04 +0200"
-author: "Jo Vandeginste"
 comments: true
 tags:
 - puppet
