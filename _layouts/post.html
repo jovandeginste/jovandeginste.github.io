@@ -2,7 +2,6 @@
 layout: default
 ---
 {% assign author = site.data.authors[page.author] %}
-{% assign publisher = site.data.authors['jovandeginste'] %}
 
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
@@ -16,12 +15,7 @@ layout: default
 			<span itemprop="email">{{ author.email }}</span>
 		</span>
 		{% endif %}
-		{% if publisher %} •
-		<span itemprop="publisher" itemscope itemtype="http://schema.org/Person">
-			<span itemprop="name">{{ publisher.name }}</span>
-			<span itemprop="email">{{ publisher.email }}</span>
-		</span>
-		{% endif %}
+		<span itemprop="publisher">Jo Vandeginste</span>
 		</p>
 		<p class="post-meta" style="text-align: justify;">
 		Tags:
