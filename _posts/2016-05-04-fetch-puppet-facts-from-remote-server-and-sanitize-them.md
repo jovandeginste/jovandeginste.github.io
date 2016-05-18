@@ -2,6 +2,7 @@
 layout: post
 title: "Fetch (puppet) facts from remote servers, sanitize them and store them locally"
 date: "2016-05-04 13:26:58 +0200"
+author: "Jo Vandeginste"
 comments: true
 tags:
 - ruby

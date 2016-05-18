@@ -2,6 +2,7 @@
 layout: post
 title: "Turning on ACL's in our Consul cluster"
 date: "2016-05-04 18:14:19 +0200"
+author: "Jo Vandeginste"
 comments: true
 tags:
 - consul

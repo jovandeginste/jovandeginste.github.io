@@ -2,6 +2,7 @@
 layout: post
 title: "puppet, mcollective, rundeck"
 date: "2016-04-29 20:27:16 +0200"
+author: "Jo Vandeginste"
 comments: true
 tags:
 - puppet

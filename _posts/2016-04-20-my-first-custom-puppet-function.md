@@ -2,6 +2,7 @@
 layout: post
 title: "My first custom puppet function"
 date: "2016-04-20 14:05:11 +0200"
+author: "Jo Vandeginste"
 comments: true
 tags:
 - puppet

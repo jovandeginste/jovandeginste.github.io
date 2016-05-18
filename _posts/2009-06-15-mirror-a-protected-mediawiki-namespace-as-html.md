@@ -2,6 +2,7 @@
 layout: post
 title: "Mirror a protected MediaWiki namespace as html"
 date: "2009-06-15 18:32:46 +0200"
+author: "Jo Vandeginste"
 comments: true
 tags:
 - mediawiki

@@ -2,6 +2,7 @@
 layout: post
 title: "How to get an active-active MySQL setup back in sync after hard crash"
 date: "2016-05-18 11:48:20 +0200"
+author: "Jo Vandeginste"
 comments: true
 tags:
 - mysql
