@@ -24,11 +24,14 @@ layout: default
 		<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
 		<meta itemprop="name" content="{{ site.name }}" />
 		<span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-			<meta itemprop="url" content="{{ site.url }}favicon.png" />
+			<meta itemprop="url" content="{{ site.url }}/favicon.png" />
 		</span>
 		</span>
 		{% endif %}
 		<meta itemprop="mainEntityOfPage" content="{{ site.url }}" />
+		<span itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+			<meta itemprop="url" content="{{ site.url }}/favicon.png" />
+		</span>
 		</p>
 
 		<p class="post-meta" style="text-align: justify;">
