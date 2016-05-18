@@ -34,8 +34,8 @@
 	{% endfor %}
 	{% endif %}
 	{% if author %}
-	<meta property="author:name" content="{{ author.name }}" />
-	<meta property="author:email" content="{{ author.email }}" />
-	<meta property="author:image" content="{{ author.image }}" />
+	<meta property="article:author:name" content="{{ author.name }}" />
+	<meta property="article:author:email" content="{{ author.email }}" />
+	<meta property="article:author:image" content="{{ author.image }}" />
 	{% endif %}
 </head>
