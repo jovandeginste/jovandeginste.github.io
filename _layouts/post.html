@@ -12,16 +12,17 @@ layout: default
 		{% if author %} •
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<span itemprop="name">{{ author.name }}</span>
+			<meta itemprop="email" content="{{ author.email }}" />
 			{% if author.email %}
 			<a
 				class="fa fa-envelope"
 				title="contact me via e-mail"
-				href="mailto:{{ site.email }}"
-				itemprop="email">{{ author.email }}"</a>
+				href="mailto:{{ site.email }}">{{ author.email }}</a>
 			{% endif %}
 		</span>
 		{% endif %}
-		<span itemprop="publisher">Jo Vandeginste</span>
+		<meta itemprop="publisher" content="{{ site.name }}" />
+		<meta itemprop="image" content="/favicon.jpg" />
 		</p>
 		<p class="post-meta" style="text-align: justify;">
 		Tags:
