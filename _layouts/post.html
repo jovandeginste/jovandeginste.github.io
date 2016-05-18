@@ -9,7 +9,6 @@ layout: default
 		<h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
 		<p class="post-meta">
 		<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>
-		</p>
 		{% if author %} •
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<span itemprop="name">{{ author.name }}</span>
@@ -23,6 +22,7 @@ layout: default
 			{% endif %}
 		</span>
 		{% endif %}
+		</p>
 
 		<p class="post-meta" style="text-align: justify;">
 		Tags:
