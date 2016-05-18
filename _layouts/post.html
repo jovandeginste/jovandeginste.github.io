@@ -23,9 +23,9 @@ layout: default
 		{% endif %}
 		<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
 		<meta itemprop="name" content="{{ site.name }}" />
-		<meta itemprop="logo" content="{{ "/favicon.png" | prepend: site.baseurl }}" />
+		<meta itemprop="logo" itemtype="http://schema.org/URL" content="{{ "/favicon.png" | prepend: site.baseurl }}" />
 		</span>
-		<meta itemprop="image" content="{{ "/favicon.png" | prepend: site.baseurl }}" />
+		<meta itemprop="image" itemtype="http://schema.org/URL" content="{{ "/favicon.png" | prepend: site.baseurl }}" />
 		</p>
 		<p class="post-meta" style="text-align: justify;">
 		Tags:
