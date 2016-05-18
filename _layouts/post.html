@@ -12,9 +12,14 @@ layout: default
 		{% if author %} •
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<span itemprop="name">{{ author.name }}</span>
-			<span itemprop="email">{{ author.email }}</span>
+			{% if author.email %}
+			<a
+				class="fa fa-envelope"
+				title="contact me via e-mail"
+				href="mailto:{{ site.email }}"
+				itemprop="email">{{ author.email }}"</a>
+			{% endif %}
 		</span>
-		{% endif %}
 		<span itemprop="publisher">Jo Vandeginste</span>
 		</p>
 		<p class="post-meta" style="text-align: justify;">
