@@ -2,6 +2,7 @@
 layout: default
 ---
 {% assign author = site.data.authors[page.author] %}
+{% assign publisher = site.data.authors[site.name] %}
 
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
@@ -13,6 +14,12 @@ layout: default
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<span itemprop="name">{{ author.name }}</span>
 			<span itemprop="email">{{ author.email }}</span>
+		</span>
+		{% endif %}
+		{% if publisher %} •
+		<span itemprop="publisher" itemscope itemtype="http://schema.org/Person">
+			<span itemprop="name">{{ publisher.name }}</span>
+			<span itemprop="email">{{ publisher.email }}</span>
 		</span>
 		{% endif %}
 		</p>
