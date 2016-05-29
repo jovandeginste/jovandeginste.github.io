@@ -8,6 +8,10 @@ categories:
 ---
 
 
+```
+php dumpBackup.php --full --include-files > ~/wikidump.xml
+```
+
 ```sql
 select user_id, user_name, user_real_name, user_email from cowi_user where user_email != '';
 ```
