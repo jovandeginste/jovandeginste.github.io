@@ -177,9 +177,9 @@ require 'pandoc-ruby'
 class String
   def mw_to_html
     begin
-      Marker.parse(self).to_html
-    rescue
       WikiCloth::Parser.new(:data => self).to_html
+    rescue
+      Marker.parse(self).to_html
     end
   end
 
@@ -256,6 +256,68 @@ Run it:
 
 ```bash
 watch -n 10 ./progress
+```
+
+The same script but outputs markdown instead:
+
+```ruby
+require 'yaml'
+require 'fileutils'
+require 'marker'
+require 'wikicloth'
+require 'pandoc-ruby'
+
+class String
+  def mw_to_html
+    begin
+      WikiCloth::Parser.new(:data => self).to_html
+    rescue
+      Marker.parse(self).to_html
+    end
+  end
+
+  def html_to_md
+    PandocRuby.convert(self, :from => :html, :to => :markdown)
+  end
+
+  def mw_to_md
+    begin
+      PandocRuby.convert(self, :from => :mediawiki, :to => :markdown)
+    rescue
+      result = self.mw_to_html.html_to_md
+      header = /\[\[edit\]\(\?section\=(?:.*)\)\] /
+      result.gsub(header, '')
+    end
+  end
+end
+
+ARGV.each do |file|
+  data = YAML.load(File.read(file))
+
+  date = Time.at(data[:timestamp])
+  page_id = data[:page_id]
+  revision_id = data[:revision_id]
+
+  year = date.year.to_s
+  month = date.month.to_s.rjust(2, '0')
+  day = date.day.to_s.rjust(2, '0')
+
+  filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
+
+  full_filename = File.join(['yaml', 'md', year, month, day, filename])
+
+  unless File.exist?(full_filename)
+    puts file
+
+    text = data[:text]
+    text.force_encoding("UTF-8")
+    text = text.mw_to_md
+    data[:text] = text
+
+    FileUtils.mkdir_p(File.dirname(full_filename))
+    File.write full_filename, data.to_yaml
+  end
+end
 ```
 
 ## 4. generate `git commit` from every 2nd step yaml file in chronological order.
