@@ -5,31 +5,34 @@ layout: default
 <div class="home">
 
   <h1 class="page-heading">Latest post</h1>
-	{% for post in site.posts limit:1 %}
-	<hr />
-	<span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-	<span class="post-meta">|</span>
-	<span class="post-meta">
-		Tags: {{ post.tags | sort | join: ", " }}
-	</span>
+  {% for post in site.posts limit:1 %}
+  <hr />
+  <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+  <span class="post-meta">|</span>
+  <span class="post-meta">
+    Tags: {{ post.tags | sort | join: ", " }}
+  </span>
 
-	<h2>
-		<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-	</h2>
-	{{ post.excerpt }}
-	<a href="{{ post.url | prepend: site.baseurl }}">Read more ...</a>
-	<hr />
-	{% endfor %}
-	<br />
+  <h2>
+    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+  </h2>
+  {{ post.excerpt }}
+  <a href="{{ post.url | prepend: site.baseurl }}">Read more ...</a>
+  <hr />
+  {% endfor %}
+  <br />
 
   <h1 class="page-heading">Recent posts</h1>
   <ul>
-		{% for post in site.posts limit:10 %}
-		<li>
-		{{ post.date | date: "%B %d, %Y" }}: <a href="{{ post.url }}">{{ post.title }}</a>
-		</li>
-		{% endfor %}
-	</ul>
+    {% for post in site.posts limit:10 %}
+    <li>
+      {{ post.date | date: "%B %d, %Y" }}: <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <p>
+    <a href="{{ "/archive" | prepend: site.baseurl }}">Read more articles</a> |
+    subscribe <a class="rss-subscribe" href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a>
+  </p>
 </div>
