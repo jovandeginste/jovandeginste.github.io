@@ -229,10 +229,34 @@ end
 The script takes any number of source yaml files and converts them sequentially. I then ran the script in parallel using gnu's parallel:
 
 ```bash
-find yaml/mw/ -type f -name '*.yaml' | parallel -N10 --gnu ruby mw2rst.rb
+find yaml/mw/ -type f -name '*.yaml' | parallel -N20 --gnu ruby mw2rst.rb
 ```
 
-This will launch the Ruby script once for each cpu core that I have, with 10 source yaml files each time (to reduce the startup overhead). This phase took even longer than step 2, even given that it ran in parallel.
+This will launch the Ruby script once for each cpu core that I have, with 20 source yaml files each time (to reduce the startup overhead). This phase took even longer than step 2, even given that it ran in parallel. For the heck of it I wrote a quick and naive `progress` script:
+
+```bash
+#!/bin/bash
+
+function progress ()
+{
+        m=$1
+        n=$2
+        u=$3
+        echo "$m $u / $n $u ($(echo "100 * $m / $n" | bc)%)"
+}
+
+echo "Progress in files: $(progress $(find yaml/rst/ -type f | wc -l) $(find yaml/mw/ -type f | wc -l) "files")"
+echo "Progress in size: $(progress $(du -ms yaml/rst/ | awk '{print $1}') $(du -ms yaml/mw/ | awk '{print $1}') MB)"
+echo
+
+ps o start_time,time,args | grep -v grep | grep ruby | cut -c 1-120
+```
+
+Run it:
+
+```bash
+watch -n 10 ./progress
+```
 
 ## 4. generate `git commit` from every 2nd step yaml file in chronological order.
 
