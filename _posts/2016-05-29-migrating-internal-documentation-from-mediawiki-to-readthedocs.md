@@ -271,10 +271,10 @@ This will launch the Ruby script once for each cpu core that I have, with 20 sou
 
 function progress ()
 {
-        m=$1
-        n=$2
-        u=$3
-        echo "$m $u / $n $u ($(echo "100 * $m / $n" | bc)%)"
+  m=$1
+  n=$2
+  u=$3
+  echo "$m $u / $n $u ($(echo "100 * $m / $n" | bc)%)"
 }
 
 echo "Progress in files: $(progress $(find yaml/html/ -type f | wc -l) $(find yaml/mw/ -type f | wc -l) "files")"
@@ -301,58 +301,58 @@ require 'fileutils'
 type = ARGV.shift
 
 class String
-        def html_to(type)
-                require 'pandoc-ruby'
-                case type
-                when 'md'
-                        result = PandocRuby.convert(self, :from => :html, :to => :markdown)
-                        header = /\[\[edit\]\(\?section\=(?:.*)\)\] /
-                when 'rst'
-                        result = PandocRuby.convert(self, :from => :html, :to => :rst)
-                        header = /\[`edit <\?section\=(?:[^\]]*)\] /
-                else
-                        result = self
-                        header = nil
-                end
-                result.gsub(header, '')
-        end
+  def html_to(type)
+    require 'pandoc-ruby'
+    case type
+    when 'md'
+      result = PandocRuby.convert(self, :from => :html, :to => :markdown)
+      header = /\[\[edit\]\(\?section\=(?:.*)\)\] /
+    when 'rst'
+      result = PandocRuby.convert(self, :from => :html, :to => :rst)
+      header = /\[`edit <\?section\=(?:[^\]]*)\] /
+    else
+      result = self
+      header = nil
+    end
+    result.gsub(header, '')
+  end
 end
 
 ARGV.each do |file|
-        data = YAML.load(File.read(file))
+  data = YAML.load(File.read(file))
 
-        date = Time.at(data[:timestamp])
-        page_id = data[:page_id]
-        revision_id = data[:revision_id]
+  date = Time.at(data[:timestamp])
+  page_id = data[:page_id]
+  revision_id = data[:revision_id]
 
-        year = date.year.to_s
-        month = date.month.to_s.rjust(2, '0')
-        day = date.day.to_s.rjust(2, '0')
+  year = date.year.to_s
+  month = date.month.to_s.rjust(2, '0')
+  day = date.day.to_s.rjust(2, '0')
 
-        filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
+  filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
 
-        full_filename = File.join(
-                [
-                        'yaml',
-                        type,
-                        year,
-                        month,
-                        day,
-                        filename,
-                ]
-        )
+  full_filename = File.join(
+  [
+    'yaml',
+    type,
+    year,
+    month,
+    day,
+    filename,
+  ]
+  )
 
-        unless File.exist?(full_filename)
-                puts file
+  unless File.exist?(full_filename)
+    puts file
 
-                text = data[:text]
-                text.force_encoding("UTF-8")
-                text = text.html_to(type)
-                data[:text] = text
+    text = data[:text]
+    text.force_encoding("UTF-8")
+    text = text.html_to(type)
+    data[:text] = text
 
-                FileUtils.mkdir_p(File.dirname(full_filename))
-                File.write full_filename, data.to_yaml
-        end
+    FileUtils.mkdir_p(File.dirname(full_filename))
+    File.write full_filename, data.to_yaml
+  end
 end
 ```
 
