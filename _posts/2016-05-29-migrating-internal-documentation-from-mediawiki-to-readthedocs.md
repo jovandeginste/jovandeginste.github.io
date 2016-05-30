@@ -207,7 +207,7 @@ class String
       end
     }.join("\n")
 
-    partials = string.split(/(?=^=.*=)/)
+    partials = string.split(/(?=^=.*[^=].*=$)/)
 
     require 'wikicloth'
     r = partials.map do |partial|
