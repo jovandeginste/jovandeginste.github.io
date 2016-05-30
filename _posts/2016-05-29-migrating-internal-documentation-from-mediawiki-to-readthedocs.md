@@ -17,11 +17,12 @@ Instead of a big bang attempt, I prepared some migration steps:
 
 1. export MediaWiki (including all revisions) to a single xml file using its built-in tool
 2. extract the single xml into separate yaml files per revision
-3. convert the Wiki syntax in the yaml files to `rst` or `md` and save it in a new yaml file
-4. generate `git commit` from every 2nd step yaml file in chronological order.
+3. convert the Wiki syntax in the yaml files to `html` and save it in a new yaml file
+4. convert the `html` files to `rst` and `md` and save them in a new yaml file
+5. generate `git commit` from every 2nd step yaml file in chronological order.
    a. overwrite the respective file with the new content
    b. commit with author's name and mail address, using the comment from the revision as commit message
-5. load the constructed git repository into a clean ReadTheDocs installation (using Docker of course)
+6. load the constructed git repository into a clean ReadTheDocs installation (using Docker of course)
 
 ## 1. export MediaWiki (including all revisions) to a single xml file using its built-in tool
 
@@ -163,76 +164,107 @@ hash['page'].each do |page|
 end
 ```
 
-## 3. convert the Wiki syntax in the yaml files to `rst` or `md` and save it in a new yaml file
+## 3. convert the Wiki syntax in the yaml files to `html` and save it in a new yaml file
 
-Next, I wrote another small Ruby script (`mw2rst.rb`) to convert the wiki syntax to `rst`. I used as much as possible from existing projects, but had to hack some modules in a "try this then thas" way because no module could parse everything, apparently... The result was again saved in a similar structure, but with `./yaml/rst/` at the root:
+Next, I wrote another small Ruby script (`mw2html.rb`) to convert the wiki syntax to `html`. I used as much as possible from existing projects, but had to hack some modules in a "try this then thas" way because no module could parse everything, apparently... Even so I had to sanitize the input text to maximize the clean output. The result was again saved in a similar structure, but with `./yaml/rst/` at the root:
 
 ```ruby
 require 'yaml'
 require 'fileutils'
-require 'marker'
-require 'wikicloth'
-require 'pandoc-ruby'
 
 class String
-  def mw_to_html
-    begin
-      WikiCloth::Parser.new(:data => self).to_html
-    rescue
-      Marker.parse(self).to_html
-    end
-  end
+	def mw_to_html
+		string = self
+		string = string
+			.gsub(/([^ ]){/, '\1&#123;')
+			.gsub(/\[\[([^\]]*)\]([^\]])/, '&#91;&#91;\1&#93;\2')
+			.gsub(/(<pre>(?!<\/pre>).*)(<pre>)/m,'\1</pre>\2')
+			.gsub(/(<\/?pre>)(.)/, '\1' + "\n" + '\2')
+			.gsub(/<\/?p>/, '')
+			.gsub(/<(http:[^>]*)>/, '\1')
+			.gsub(/(.)(<\/?pre>)/, '\1' + "\n" + '\2')
+			.split(/(<\/pre>)/m).map{|s|
+			if s.match('<pre>')
+				a, b = s.split('<pre>')
+				b ?  a + b.split("\n").map{|l| "  #{l}"}.join("\n") : a
+			elsif s.match('</pre>')
+				s.gsub('</pre>', '')
+			else
+				s
+			end
+		}.join
+			.split("\n").map{|s|
+			if s.match(/^  /)
+				s
+					.gsub(/</, '&#60;')
+					.gsub(/>/, '&#62;')
+					.gsub(/\[/, '&#91;')
+					.gsub(/\]/, '&#93;')
+					.gsub(/{/, '&#123;')
+					.gsub(/}/, '&#125;')
+			else
+				s
+			end
+		}.join("\n")
 
-  def html_to_rst
-    PandocRuby.convert(self, :from => :html, :to => :rst)
-  end
+			r = begin
+						require 'wikicloth'
+						WikiCloth::Parser.new(:data => string).to_html
+					rescue
+						require 'marker'
+						Marker.parse(string).to_html
+					end
 
-  def mw_to_rst
-    begin
-      PandocRuby.convert(self, :from => :mediawiki, :to => :rst)
-    rescue
-      result = self.mw_to_html.html_to_rst
-      header = /\[`edit <\?section\=(?:[^\]]*)\] /
-      result.gsub(header, '')
-    end
-  end
+			r.gsub(/<span .*">([^<]*)<\/span>/, '\1').gsub(/&amp;amp;amp;/, '&amp;')
+	end
 end
 
 ARGV.each do |file|
-  data = YAML.load(File.read(file))
+	data = YAML.load(File.read(file))
 
-  date = Time.at(data[:timestamp])
-  page_id = data[:page_id]
-  revision_id = data[:revision_id]
+	date = Time.at(data[:timestamp])
+	page_id = data[:page_id]
+	revision_id = data[:revision_id]
 
-  year = date.year.to_s
-  month = date.month.to_s.rjust(2, '0')
-  day = date.day.to_s.rjust(2, '0')
+	year = date.year.to_s
+	month = date.month.to_s.rjust(2, '0')
+	day = date.day.to_s.rjust(2, '0')
 
-  filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
+	filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
 
-  full_filename = File.join(['yaml', 'rst', year, month, day, filename])
-  unless File.exist?(full_filename)
-    puts file
+	full_filename = File.join(
+		[
+			'yaml',
+			'html',
+			year,
+			month,
+			day,
+			filename,
+		]
+	)
 
-    text = data[:text]
-    text.force_encoding("UTF-8")
-    text = text.mw_to_rst
-    data[:text] = text
+	unless File.exist?(full_filename)
+		require 'pandoc-ruby'
+		puts file
 
-    FileUtils.mkdir_p(File.dirname(full_filename))
-    File.write full_filename, data.to_yaml
-  end
+		text = data[:text]
+		text.force_encoding("UTF-8")
+		text = text.mw_to_html
+		data[:text] = text
+
+		FileUtils.mkdir_p(File.dirname(full_filename))
+		File.write full_filename, data.to_yaml
+	end
 end
 ```
 
 The script takes any number of source yaml files and converts them sequentially. I then ran the script in parallel using gnu's parallel:
 
 ```bash
-find yaml/mw/ -type f -name '*.yaml' | parallel -N20 --gnu ruby mw2rst.rb
+find yaml/mw/ -type f -name '*.yaml' | parallel -N20 --gnu ruby mw2html.rb
 ```
 
-This will launch the Ruby script once for each cpu core that I have, with 20 source yaml files each time (to reduce the startup overhead). This phase took even longer than step 2, even given that it ran in parallel. For the heck of it I wrote a quick and naive `progress` script:
+This will launch the Ruby script once for each cpu core that I have, with 20 source yaml files each time (to reduce the startup overhead). This phase took way longer than step 2, even given that it ran in parallel. For the heck of it I wrote a quick and naive `progress` script:
 
 ```bash
 #!/bin/bash
@@ -245,8 +277,8 @@ function progress ()
         echo "$m $u / $n $u ($(echo "100 * $m / $n" | bc)%)"
 }
 
-echo "Progress in files: $(progress $(find yaml/rst/ -type f | wc -l) $(find yaml/mw/ -type f | wc -l) "files")"
-echo "Progress in size: $(progress $(du -ms yaml/rst/ | awk '{print $1}') $(du -ms yaml/mw/ | awk '{print $1}') MB)"
+echo "Progress in files: $(progress $(find yaml/html/ -type f | wc -l) $(find yaml/mw/ -type f | wc -l) "files")"
+echo "Progress in size: $(progress $(du -ms yaml/html/ | awk '{print $1}') $(du -ms yaml/mw/ | awk '{print $1}') MB)"
 echo
 
 ps o start_time,time,args | grep -v grep | grep ruby | cut -c 1-120
@@ -258,65 +290,69 @@ Run it:
 watch -n 10 ./progress
 ```
 
-The same script but outputs markdown instead:
+## 4. convert the `html` files to `rst` and `md` and save them in a new yaml file
+
+The next step seemed to be easier. Given that most work was in converting to `html`, the conversion to `rst` or `md` was a lot more straight forward! I wrote a single script that could do both conversions depending on the first parameter:
 
 ```ruby
 require 'yaml'
 require 'fileutils'
-require 'marker'
-require 'wikicloth'
-require 'pandoc-ruby'
+
+type = ARGV.shift
 
 class String
-  def mw_to_html
-    begin
-      WikiCloth::Parser.new(:data => self).to_html
-    rescue
-      Marker.parse(self).to_html
-    end
-  end
-
-  def html_to_md
-    PandocRuby.convert(self, :from => :html, :to => :markdown)
-  end
-
-  def mw_to_md
-    begin
-      PandocRuby.convert(self, :from => :mediawiki, :to => :markdown)
-    rescue
-      result = self.mw_to_html.html_to_md
-      header = /\[\[edit\]\(\?section\=(?:.*)\)\] /
-      result.gsub(header, '')
-    end
-  end
+        def html_to(type)
+                require 'pandoc-ruby'
+                case type
+                when 'md'
+                        result = PandocRuby.convert(self, :from => :html, :to => :markdown)
+                        header = /\[\[edit\]\(\?section\=(?:.*)\)\] /
+                when 'rst'
+                        result = PandocRuby.convert(self, :from => :html, :to => :rst)
+                        header = /\[`edit <\?section\=(?:[^\]]*)\] /
+                else
+                        result = self
+                        header = nil
+                end
+                result.gsub(header, '')
+        end
 end
 
 ARGV.each do |file|
-  data = YAML.load(File.read(file))
+        data = YAML.load(File.read(file))
 
-  date = Time.at(data[:timestamp])
-  page_id = data[:page_id]
-  revision_id = data[:revision_id]
+        date = Time.at(data[:timestamp])
+        page_id = data[:page_id]
+        revision_id = data[:revision_id]
 
-  year = date.year.to_s
-  month = date.month.to_s.rjust(2, '0')
-  day = date.day.to_s.rjust(2, '0')
+        year = date.year.to_s
+        month = date.month.to_s.rjust(2, '0')
+        day = date.day.to_s.rjust(2, '0')
 
-  filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
+        filename = date.to_time.strftime("%F_%H-%M-%S") + "_p#{page_id}_r#{revision_id}.yaml"
 
-  full_filename = File.join(['yaml', 'md', year, month, day, filename])
+        full_filename = File.join(
+                [
+                        'yaml',
+                        type,
+                        year,
+                        month,
+                        day,
+                        filename,
+                ]
+        )
 
-  unless File.exist?(full_filename)
-    puts file
+        unless File.exist?(full_filename)
+                puts file
 
-    text = data[:text]
-    text.force_encoding("UTF-8")
-    text = text.mw_to_md
-    data[:text] = text
+                text = data[:text]
+                text.force_encoding("UTF-8")
+                text = text.html_to(type)
+                data[:text] = text
 
-    FileUtils.mkdir_p(File.dirname(full_filename))
-    File.write full_filename, data.to_yaml
-  end
+                FileUtils.mkdir_p(File.dirname(full_filename))
+                File.write full_filename, data.to_yaml
+        end
 end
 ```
 
