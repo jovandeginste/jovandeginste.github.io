@@ -340,9 +340,89 @@ end
 
 ## 4. generate `git commit` from every 2nd step yaml file in chronological order.
 
-### a. overwrite the respective file with the new content
+Now that all data was safely stored in a useful format with the necessary metadata, we can start sending it to `git`. Again a small ruby script:
 
-### b. commit with author's name and mail address, using the comment from the revision as commit message
+```ruby
+require 'yaml'
+require 'shellwords'
+require 'fileutils'
+
+base = ARGV.shift
+
+class String
+	def cleanup
+		self.gsub(/[^[:alnum:]\/]+/, '-')
+	end
+	def to_key
+		self.gsub(/_/, '-')
+	end
+	def to_value
+		self.shellescape
+	end
+end
+class Symbol
+	def to_key
+		self.to_s.to_key
+	end
+	def to_value
+		self.to_s.to_value
+	end
+end
+class NilClass
+	def to_value
+		''.shellescape
+	end
+end
+
+class Hash
+	def to_params
+		self.collect do |key, value|
+			"--#{key.to_key}=#{value.to_value}"
+		end.join(" ")
+	end
+end
+
+def git(command, filename, params = {}, git_params = {})
+	puts "Executing: git #{git_params.to_params} #{command} #{params.to_params} #{filename}"
+	system "git #{git_params.to_params} #{command} #{params.to_params} #{filename}"
+end
+
+ARGV.each do |file|
+	data = YAML.load(File.read(file))
+
+	date = Time.at(data[:timestamp])
+	type = data[:type]
+
+	filename = data[:title].cleanup + "." + type
+
+	full_filename = File.join(
+		[
+			base,
+			filename
+		]
+	)
+
+	puts "#{file} => #{full_filename}"
+
+	text = data[:text]
+	text.force_encoding("UTF-8")
+
+	git_params = {
+		work_tree: File.join(base, '.'),
+		git_dir: File.join(base, '.git'),
+	}
+	git_commit_params = {
+		date: date.to_s,
+		author: data[:contributor],
+		message: data[:comment] || '# empty comment',
+	}
+
+	FileUtils.mkdir_p(File.dirname(full_filename))
+	File.write full_filename, text
+	git :add, filename, {}, git_params
+	git :commit, filename, git_commit_params, git_params
+end
+```
 
 ## 5. load the constructed git repository into a clean ReadTheDocs installation (using Docker of course)
 
