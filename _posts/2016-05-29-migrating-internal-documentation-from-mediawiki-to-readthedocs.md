@@ -138,6 +138,8 @@ hash['page'].each do |page|
 
     if u = users[contributor]
       contributor = "#{u['name']} <#{u['mail']}>"
+    else
+      contributor = "#{contributor} <unknown@mail.address>"
     end
 
     data = {
