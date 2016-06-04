@@ -155,3 +155,7 @@ Hyperlinks to sub-wiki-pages (pages containing `/`) is also prone to errors, but
 Next, Gollum has no state at all. This means it starts very fast, but serves quite slow when the repository is big. Mine was 28000 git commits (= wiki page revisions) and 2900 pages. Experimenting with formats seemed to point out that using `.wiki` files was slower than .md` files, and that less commits was faster. On the other hand, it could be useful to have a SQL database with metadata for some parts.
 
 The search function in Gollum was always very fast... Not sure why this was so fast, while rendering a single page was not. I will try to find out more on this, maybe try to improve Gollum (or find an alternative).
+
+- magpie
+- laverna
+
