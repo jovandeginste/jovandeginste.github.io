@@ -3,7 +3,6 @@ layout: post
 title: "Migrating internal documentation from MediaWiki to Gollum"
 date: "2016-05-29 18:26:54 +0200"
 comments: true
-published: false
 tags:
 - MediaWiki
 - Gollum
