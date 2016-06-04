@@ -9,7 +9,7 @@ Dir.glob('_posts/*.md').each do |file|
 	end
 end
 
-tags.uniq.each do |tag|
+tags.map(&:downcase).uniq.each do |tag|
 	File.write "tags/#{tag}.html", <<-EOF
 ---
 layout: tagpage

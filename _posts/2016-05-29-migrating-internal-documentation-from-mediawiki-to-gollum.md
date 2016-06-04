@@ -4,8 +4,8 @@ title: "Migrating internal documentation from MediaWiki to Gollum"
 date: "2016-05-29 18:26:54 +0200"
 comments: true
 tags:
-- MediaWiki
-- Gollum
+- mediawiki
+- gollum
 ---
 
 I like MediaWiki and WikiPedia as a consumer. I used to like it as a producer when I started documenting procedures at my job - let's say about 10 years ago now. But very quickly, I started avoiding it for documentation, and the result was that my documentation was lacking and/or all over the place (depending on the project). As a proof of concept, I wanted to deploy a [Gollum](https://github.com/gollum/gollum) site and see how feasible it is to migrate our current MediaWiki content to it.
