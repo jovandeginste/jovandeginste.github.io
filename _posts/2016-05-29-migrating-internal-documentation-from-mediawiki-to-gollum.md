@@ -10,15 +10,15 @@ tags:
 
 I like MediaWiki and WikiPedia as a consumer. I used to like it as a producer when I started documenting procedures at my job - let's say about 10 years ago now. But very quickly, I started avoiding it for documentation, and the result was that my documentation was lacking and/or all over the place (depending on the project). As a proof of concept, I wanted to deploy a [Gollum](https://github.com/gollum/gollum) site and see how feasible it is to migrate our current MediaWiki content to it.
 
-For extra credits, I wanted to preserve the change history in the documentation. I would try to create git history as if every wiki revision was a single commit. Input for Gollum could be the source `wiki`, or either `reStructuredText` or `Markdown` (not decided yet).
+For extra credits, I wanted to preserve the change history in the documentation. I would try to create git history as if every wiki revision was a single commit. Input for Gollum could be the source wiki, or either reStructuredText or Markdown (not decided yet).
 
 Instead of a big bang attempt, I prepared some migration steps:
 
 1. export MediaWiki (including all revisions) to a single xml file using its built-in tool
-2. extract the single xml into separate yaml files per revision
-3. convert the Wiki syntax in the yaml files to `html` and save it in a new yaml file
-4. convert the `html` files to `rst` and `md` and save them in a new yaml file
-5. generate `git commit` from every 2nd step yaml file in chronological order.
+2. extract the single xml into separate `yaml` files per revision
+3. convert the Wiki syntax in the `yaml` files to `html` and save it in a new `yaml` file
+4. convert the `html` files to `rst` and `md` and save them in a new `yaml` file
+5. generate `git commit` from every 2nd step `yaml` file in chronological order.
    a. overwrite the respective file with the new content
    b. commit with author's name and mail address, using the comment from the revision as commit message
 6. load the constructed git repository into a clean Gollum installation (using Docker of course)
@@ -104,19 +104,19 @@ This allows me to lookup users from revisions on the fly.
 
 ## 2. extract the single xml into separate yaml files per revision
 
-The big xml was - well, big: >700 MB. This means that parsing it as xml takes a while. I wrote a small Ruby script [xml2yaml](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/xml2yaml.rb) to extract the necessary information from `wikidump.xml` and write it to separate yaml files `./yaml/wiki/year/month/mday/timestamp_projectid_revisionid.yaml`.
+The big xml was - well, big: >700 MB. This means that parsing it as xml takes a while. I wrote a small Ruby script [xml2yaml](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/xml2yaml.rb) to extract the necessary information from `wikidump.xml` and write it to separate `yaml` files `./yaml/wiki/year/month/mday/timestamp_projectid_revisionid.yaml`.
 
-## 3. convert the Wiki syntax in the yaml files to `html` and save it in a new yaml file
+## 3. convert the Wiki syntax in the yaml files to html and save it in a new yaml file
 
-Next, I wrote another small Ruby script [wiki2html.rb](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/wiki2html.rb) to convert the wiki syntax to `html`. I had to sanitize the input text to maximize the chance of usable output. The result was again saved in a similar structure, but with `./yaml/html/` at the root.
+Next, I wrote another small Ruby script [wiki2html.rb](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/wiki2html.rb) to convert the wiki syntax to html. I had to sanitize the input text to maximize the chance of usable output. The result was again saved in a similar structure, but with `./yaml/html/` at the root.
 
-The script takes any number of source yaml files and converts them sequentially. I then ran the script in parallel using gnu's parallel:
+The script takes any number of source `yaml` files and converts them sequentially. I then ran the script in parallel using gnu's parallel:
 
 ```bash
 find yaml/wiki/ -type f -name '*.yaml' | parallel -N20 --gnu ruby wiki2html.rb
 ```
 
-This will launch the Ruby script once for each cpu core that I have, with 20 source yaml files each time (to reduce the startup overhead). This phase took way longer than step 2, even given that it ran in parallel. For the heck of it I wrote a quick and naive [progress](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/progress) script:
+This will launch the Ruby script once for each cpu core that I have, with 20 source `yaml` files each time (to reduce the startup overhead). This phase took way longer than step 2, even given that it ran in parallel. For the heck of it I wrote a quick and naive [progress](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/progress) script:
 
 Run it:
 
@@ -124,13 +124,13 @@ Run it:
 watch -n 10 ./progress
 ```
 
-## 4. convert the `html` files to `rst` and/or `md` and save them in a new yaml file
+## 4. convert the html files to rst and/or md and save them in a new yaml file
 
-The next step seemed to be easier. Given that most work was in converting to `html`, the conversion to `rst` or `md` was a lot more straight forward! I wrote a single script [html2any](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/html2any.rb) that could do both (and other) conversions depending on the first parameter:
+The next step seemed to be easier. Given that most work was in converting to html, the conversion to `rst` or `md` was a lot more straight forward! I wrote a single script [html2any](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/html2any.rb) that could do both (and other) conversions depending on the first parameter:
 
 ## 5. generate `git commit` from every 2nd step yaml file in chronological order.
 
-Now that all data was safely stored in a useful format with the necessary metadata, we can start sending it to `git`. Again a simple ruby script [any2git.rb](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/any2git.rb)
+Now that all data was safely stored in a useful format with the necessary metadata, we can start sending it to git. Again a simple ruby script [any2git.rb](https://github.com/jovandeginste/mediawiki_to_gollum/blob/master/any2git.rb)
 
 ## 6. load the constructed git repository into a clean Gollum installation (using Docker of course)
 
