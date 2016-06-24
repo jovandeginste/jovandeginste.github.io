@@ -16,6 +16,7 @@ Last week I attended HashiConf EU, and if I had one take-away, it was that we ne
 ## The problem
 
 The problem is essentially explained by [this github issue on hiera-vault](https://github.com/jsok/hiera-vault/issues/22). In short:
+
 * some backends are fast, and some are slow, and Vault is a slow one
 * every hiera lookup essentially goes to every backend *(string lookups are special)*
 * every hiera lookup is usually done for every entry in the `:hierarchy:` *(string lookups are special)*
@@ -42,6 +43,7 @@ So we created a new hiera backend that would first retrieve the value from the y
 When I implemented our solution in our production Puppet setup, I realized that I could fix something else that had been bothering me for a long time: access to encrypted secrets when testing the Puppet setup. Or rather: no access to those secrets, but to something "equivalent". I run a large number of tests on our Puppet setup before promoting any changes to production, and the last chapter of tests is compiling actual catalogs for some real servers (without deploying them). This catches many logical errors that simple syntax checking would not detect, or mismatches in data type (eg. between Puppet and hiera).
 
 With eyaml, the solution for this was easy: switch to yaml, and you will get the encrypted string as a result (which should be fine in most cases). With Vault this became a different thing: I could/should not access the production Vault data, so my options were:
+
 * set up a separate Vault cluster with a parallel data structure
 * set up a parallel data structure in the production Vault at a different path (with a different token)
 * disable the Vault backend in hiera
