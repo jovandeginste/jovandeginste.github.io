@@ -18,6 +18,7 @@ We are still using keepalived for HA, and I don't like setting `net.ipv4.ip_nonl
 I also add an extra `hosts` entry on each cluster member to refer to his own and to the other members in a general way, intelligently named `this_puppet` and `other_puppet`. This means I can copy the `haproxy.cfg` between the cluster members without alteration as long as both those `hosts` entries are correctly set:
 
 On clustermember1:
+
 ```
 127.0.0.1 this_puppet
 10.0.0.1 _my_service_ip_
@@ -25,6 +26,7 @@ On clustermember1:
 ```
 
 On clustermember2:
+
 ```
 127.0.0.1 this_puppet
 10.0.0.2 _my_service_ip_
@@ -34,6 +36,7 @@ On clustermember2:
 Why the difference between `this_puppet` and `_my_service_ip_`? Because the puppet master runs in Docker containers (multiple containers per cluster member) and forwarding to the "public" ip doesn't work that easy. Forwarding to `127.0.0.1` works just nice, but we also need to listen to the public ip on both members.
 
 The configuration file `haproxy.cfg` has this then (partial):
+
 ```
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
@@ -85,6 +88,7 @@ vrrp_instance puppet {
 ```
 
 And an `iptables` rule:
+
 ```
 -I PREROUTING -t nat -p tcp -d 10.0.0.10 --destination-port 8141 \
   -j DNAT --to-destination _my_service_ip_:8141
