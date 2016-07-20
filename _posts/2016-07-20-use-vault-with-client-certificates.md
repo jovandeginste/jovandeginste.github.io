@@ -208,7 +208,7 @@ Now we wait for the rest of the hour to pass and verify our token has expired:
 $ vault token-lookup
 error looking up token: Error making API request.
 
-URL: GET https://vault.icts.kuleuven.be/v1/auth/token/lookup-self
+URL: GET https://vault.example.com/v1/auth/token/lookup-self
 Code: 400\. Errors:
 
 * permission denied
