@@ -6,7 +6,7 @@ author: jovandeginste
 comments: true
 tags:
   - vault
-published: false
+published: true
 ---
 
 Still learning to use [Vault](https://www.vaultproject.io/), I want to experiment accessing the Vault using a client certificate instead of a regular token. This proved to be not-so-easy for reasons I hadn't foreseen...
