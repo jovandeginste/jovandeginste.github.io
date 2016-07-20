@@ -214,4 +214,4 @@ Code: 400\. Errors:
 * permission denied
 ```
 
-You can get a new token any time with the `auth` command, until your certificate expires (hopefully not after this, but I haven't tried it)
+You can get a new token any time with the `auth` command, until your certificate expires (hopefully not after it expires, but I haven't tried it)
