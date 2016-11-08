@@ -11,7 +11,7 @@ published: false
 
 We've been running Jenkins for our automatic testing for more than a year now, using Jenkins Job Builder as a way to automate the creation and updating of the many jobs. While the scale was still reasonably small (order of 100 jobs), I often encountered problems managing the job definitions this way.
 
-I had long been hoping for some Travis-like way to configure jobs from inside your code repository, and give the power back to the developer.
+I had long been hoping for some Travis-like way to configure jobs from inside the code repository, and give the power (and responsibility) back to the developer.
 
 ## Jenkins 2 and pipelines
 
@@ -28,23 +28,23 @@ SEVERE: Container startup failed
 java.io.IOException: Failed to start a listener: winstone.Ajp13ConnectorFactory
 ```
 
-Reading the [upgrade notes](https://jenkins.io/2.0/#compat) confirmed ajp was removed:
+Reading the [upgrade notes](https://jenkins.io/2.0/#compat) confirmed ajp support was removed:
 
 > Jenkins 2 no longer supports AJP with the embedded 
 > Winstone-Jetty container, so if you're using Jenkins 
 > with a reverse proxy, please make sure it uses HTTP 
 > before upgrading.
 
-My limited knowledge of `ajp`, lack of time to investigate, and - honestly - not realising the use of the pipelines, made me do the wrong thing: downgrade the master to "latest-lts" and keep it there for the time being.
+My limited knowledge of `ajp`, lack of time to investigate, and - honestly - not realising the use of the pipelines at the time, made me do the wrong thing: downgrade the master to "latest-lts" and keep it there for the time being.
 
-Many months later, I finally picked up the task to upgrade the master to 2.0. That's when I realised we had simply never used the ajp connector for Jenkins... I quickly removed the parameter and behold: it just worked. Nothing that we used in v1 appeared broken, nobody noticed anything.
+Many months later, I finally picked up the task to upgrade the master to 2.0. That's when I realised we had simply never used the ajp connector for Jenkins... I removed the parameter and behold: it just worked. Nothing that we used in v1 appeared broken, nobody noticed anything (well, at least nobody complained, which is usually my metric).
 
 ## Our migration
 
-Since plugins have to support pipelines to be usable this way, this can be a delaying factor for adoption. You can look for alternative plugins that replace the functionality (and do support pipelines), reimplement the functionality yourself by writing some Groovy classes, or maybe help the maintainer and donate some time to create a PR.
+Since plugins have to support pipelines to be usable this way, this can be a delaying factor for adoption. You can look for alternative plugins that implement the functionality (and do support pipelines), reimplement the functionality yourself by writing some Groovy classes, or maybe help the maintainer and donate some time to create a PR. Our realize you didn't need the plugin in the first place.
 
-Today, all plugins essential to our setup support pipelines, so we can actually migrate all our jobs to pipeline jobs. Since I was using the Jenkins Job Builder before, most jobs are based on one of a small set of templates, and therefore I only had to convert those templates to Groovy classes included with every job.
+All plugins essential to our setup support pipelines, so we can actually migrate all our jobs to pipeline jobs. Since I was using the Jenkins Job Builder before, most jobs are based on one of a small set of templates, and therefore I only had to convert those templates to Groovy classes and include them with every job.
 
-The converted templates where never identical, so extensive testing of the new job by the code owner was obviously necessary. Against my expectations, most developers were actually very responsive to this major change in their workflow and were very cooperative. Some actually helped write part of the Groovy classes and fixed some bugs for me (I suspect they were really just happy to take a break from their usual projects).
+The converted templates where never identical (parameters), so extensive testing of the new jobs by the code owner was obviously necessary. Against my expectations, most developers were actually very responsive to this major change in their workflow and were very cooperative. Some actually helped write part of the Groovy classes and fixed some bugs for me (I suspect they were really just happy to take a break from their usual projects).
 
 After the first week, half of the jobs (mostly my own) were converted. After the second week, about 75% of the jobs was using pipelines. The remaining jobs are still in the process of slowly being tested and converted at a slow pace.
