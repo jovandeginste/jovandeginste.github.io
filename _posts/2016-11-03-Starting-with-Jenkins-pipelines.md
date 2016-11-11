@@ -23,6 +23,8 @@ This feature allows for fast debugging and iteration without mudding your code r
 
 ## Pipeline syntax
 
-This is another feature in Jenkins, where you get a kind of wizard that generates Groovy snippets. You can access it when focusing a job (not a build).
+This is another feature in Jenkins, where you get a kind of wizard that generates Groovy snippets. You can access it when focusing a job (not a build) or from the replay page.
 
-It is self explaining: you select a function from the core or a plugin, fill in the function's parameters in the input fields and it generates a code snippet ready to copy.
+It is self explaining: you select a function from the core or from a plugin, fill in the parameters in the input fields and click "Generate Pipeline Script". Guess what it does: it generates a code snippet ready to copy and paste.
+
+It gives you quick access to the DSL so you don't have to dive into the source code or find other people's examples.
