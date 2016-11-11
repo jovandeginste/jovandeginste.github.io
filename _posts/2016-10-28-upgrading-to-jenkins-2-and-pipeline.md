@@ -6,7 +6,7 @@ author: jovandeginste
 comments: true
 tags:
   - jenkins
-published: false
+published: true
 ---
 
 We've been running Jenkins for our automatic testing for more than a year now, using Jenkins Job Builder as a way to automate the creation and updating of the many jobs. While the scale was still reasonably small (order of 100 jobs), I often encountered problems managing the job definitions this way.

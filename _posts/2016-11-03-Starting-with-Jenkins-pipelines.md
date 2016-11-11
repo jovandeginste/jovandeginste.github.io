@@ -6,7 +6,7 @@ author: jovandeginste
 comments: true
 tags:
   - jenkins
-published: false
+published: true
 ---
 
 Getting started with Jenkins pipelines was daunting at first. A new language (Groovy) for me, and a new job type. Online support was hard to find or simply lacking. However, some things help you a long way!
