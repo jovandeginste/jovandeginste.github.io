@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Jenkins pipelines: Groovy classes
+title: Jenkins pipelines - Groovy classes
 date: '2016-11-11 20:22:39 +0100'
 author: jovandeginste
 comments: true
