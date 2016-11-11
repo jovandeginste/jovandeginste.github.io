@@ -39,7 +39,7 @@ My limited knowledge of `ajp`, lack of time to investigate, and - honestly - not
 
 Many months later, I finally picked up the task to upgrade the master to 2.0. That's when I realised we had simply never used the ajp connector for Jenkins... I removed the parameter and behold: it just worked. Nothing that we used in v1 appeared broken, nobody noticed anything (well, at least nobody complained, which is usually my metric).
 
-## Our migration
+## Our migration to pipelines
 
 Since plugins have to support pipelines to be usable this way, this can be a delaying factor for adoption. You can look for alternative plugins that implement the functionality (and do support pipelines), reimplement the functionality yourself by writing some Groovy classes, or maybe help the maintainer and donate some time to create a PR. Our realize you didn't need the plugin in the first place.
 
@@ -48,3 +48,5 @@ All plugins essential to our setup support pipelines, so we can actually migrate
 The converted templates where never identical (parameters), so extensive testing of the new jobs by the code owner was obviously necessary. Against my expectations, most developers were actually very responsive to this major change in their workflow and were very cooperative. Some actually helped write part of the Groovy classes and fixed some bugs for me (I suspect they were really just happy to take a break from their usual projects).
 
 After the first week, half of the jobs (mostly my own) were converted. After the second week, about 75% of the jobs was using pipelines. The remaining jobs are still in the process of slowly being tested and converted at a slow pace.
+
+I'm working on some posts detailing the implementation of pipelines for our organisation.
