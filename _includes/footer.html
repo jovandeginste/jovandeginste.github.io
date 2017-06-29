@@ -5,13 +5,17 @@
 			<div class="footer-col footer-col-1">
 				<img
 				style="border:1px solid #; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; margin-right: 25px; float: left;"
-				src="{{ "/foto.jpg" | prepend: site.baseurl }}" height="90px" />
+		src="{{ "/foto.jpg" | prepend: site.baseurl }}" height="90px" />
 				<div>{{ site.name }}</div>
 				{% include social-links.html %}
 			</div>
 
 			<div class="footer-col footer-col-3">
 				<p>{{ site.description }}</p>
+				<p>
+				Found something very useful and feel grateful? Consider donating!<br />
+				<i class="fa fa-btc" style="color: #FF9900"></i> {{ site.bitcoin_address }}
+				</p>
 			</div>
 		</div>
 
@@ -19,9 +23,9 @@
 
 	<script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
- (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
- m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
- })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-76515028-1', 'auto');
 ga('send', 'pageview');
