@@ -14,7 +14,7 @@ description: > # this means to ignore newlines until "baseurl:"
   new (to me) tools and usually struggle to get them working in our corporate
   environment.
 
-  Found something very useful and feel grateful? Consider donating:
+  Found something very useful and feel grateful? Consider donating!
 	<i class="fa fa-btc"></i> 1E7z4Z7R92WbZ1GHPH7zApSkvxduPMu1y7
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://jovandeginste.github.io" # the base hostname & protocol for your site
